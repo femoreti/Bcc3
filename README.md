@@ -25,6 +25,14 @@ U1C5ABDE
 - C5 - Turno que irá entrar (Chegada 5)
 - ABDE - Ordem dos guichês que irá passar até sair do sistema
 
-#Wireframe de interface
+### Output
+```
+Tempo médio de um usuário
+Tempo médio por tipo de fila
+usuário que ficou mais tempo no sistema
+tempo médio por combinação ordenado (para ordem de atendimento ABDE por exemplo)
+```
+
+## Wireframe de interface
 
 ![alt tag](https://github.com/femoreti/Bcc3/blob/master/exemplo%20de%20interface.jpg)
