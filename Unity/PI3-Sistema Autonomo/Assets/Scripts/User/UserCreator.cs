@@ -7,12 +7,14 @@ public class UserCreator : MonoBehaviour
     public List<User> _userLine = new List<User>();
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }
