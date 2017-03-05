@@ -34,23 +34,31 @@ public class BCCEditor : MonoBehaviour {
         string[] lineSplitEnters = txtToSplit.Split(stringSeparators, System.StringSplitOptions.None);
 
         UserCreator uc = GameObject.Find("UserCreator").GetComponent<UserCreator>();
-
+        uc._userLine.Clear();
         for (int i = 0; i < lineSplitEnters.Length; i++)
         {
-            User u = new User();
             UserBasics ub = new UserBasics();
 
             string line = lineSplitEnters[i];
+            Debug.Log("################## - " + line);
             string userName = lineSplitEnters[i].Split('C')[0];
             string turnoChegada = "C" + lineSplitEnters[i].Split('C')[1].Split('A')[0];
-            string ordemGuichês = 'A' + lineSplitEnters[i].Split('C')[1].Split('A')[1];
+            string ordemGuiches = 'A' + line.Split('A')[1];
 
             ub.name = userName;
-            ub.arrivalTurn = int.Parse(turnoChegada.Substring(0));
+            ub.arrivalTurn = int.Parse(turnoChegada.Replace("C", ""));
+            ub.walkOrder = new System.Collections.Generic.List<char>();
+            Debug.Log("name - " + ub.name);
+            Debug.Log("chegada - " + ub.arrivalTurn);
 
-            Debug.Log("name - " + userName);
-            Debug.Log("chegada - " + turnoChegada);
-            Debug.Log("guiches - " + ordemGuichês);
+            //Debug.Log("guiches - " + ordemGuiches);
+            for (int j = 0; j < ordemGuiches.Length; j++)
+            {
+                ub.walkOrder.Add(ordemGuiches[j]);
+                Debug.Log("guiches - " + ordemGuiches[j]);
+            }
+
+            uc._userLine.Add(ub);
         }
     }
 
