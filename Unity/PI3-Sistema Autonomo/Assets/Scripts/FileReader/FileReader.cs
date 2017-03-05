@@ -20,13 +20,23 @@ public class FileReader : MonoBehaviour {
 	private void ReadTextFile() {
 		string txt = File.ReadAllText(Application.dataPath + "/StreamingAssets/Setup.txt");
 		
+		// Caso não conseguimos ler o texto (ou seja ele é nulo ou vazio)
+		// Joga uma exception
 		if (txt == null || txt == "") {
 			throw new Exception("Não foi possível ler a entrada.");
 		}
 
+		// Quebra o texto recebido no \n (ENTER)
 		string[] txtArray = txt.Split('\n');
-		qtdAtendentes = Convert.ToInt16(txtArray[0]);
 
+		// A primeira posição do vetor gerado pelo Split
+		// é a quantidade de atendentes
+		qtdAtendentes = Convert.ToInt16(txtArray[0]);
+ 
+		// Se a primeira posição for RP(Relação de Postos) então retiramos
+		// o \r do final da string para ficar no formato certo e guardamos
+		// na variável. O mesmo para RA, todo o resto da string guardamos 
+		// na lista tempoPostos e depois tratamos.
 		foreach (var item in txtArray) {
 			var temp = item.Split(':');
 			if (temp[0] == "RP") {
@@ -38,6 +48,9 @@ public class FileReader : MonoBehaviour {
 			}
 		}
 
+		// Remove o primeiro item da lista, pois é a qtd de atendentes
+		// Remove o TROCA e o ultimo espaço em branco do vetor para 
+		// termos so os postos e os turnos
 		tempoPostos.RemoveAt(0);
 		tempoPostos.Remove("TROCA");
 		tempoPostos.Remove("");
@@ -46,6 +59,9 @@ public class FileReader : MonoBehaviour {
 		Dictionary<char, int> postos = new Dictionary<char, int>();
 		List<Posto> postosList = new List<Posto>();
 
+		// Iteramos na string e adcionamos os caracteres no dicionario
+		// sem repetição e incrementamos a quantidade de postos iguais
+		// caso nescessário.
 		for (int i = 0; i < relPostos.Length; i++) {
 			if (!postos.ContainsKey(relPostos[i])) {
 				postos.Add(relPostos[i], 1);
@@ -54,10 +70,13 @@ public class FileReader : MonoBehaviour {
 			}
 		}
 	
+		// Criamos um objeto posto apartir do dicionario criado, ainda sem
+		// a quantidade de turnos
 		foreach (var item in postos) {
 			postosList.Add(new Posto(item.Key, 0, item.Value));
 		}
 
+		// Adcionamos os turnos ao objeto posto
 		foreach (var item in tempoPostos) {
 			var letra = item.Substring(0, 1);
 			var turnos = item.Substring(1, item.Length - 1);
