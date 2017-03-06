@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GerenciadorPosto : MonoBehaviour {
 
@@ -12,8 +13,11 @@ public class GerenciadorPosto : MonoBehaviour {
     private string relAtendentes;
     private List<string> tempoPostos = new List<string>();
 
+    public Text nomePostoTxt;
+    public Canvas canvas;
     public GameObject postoPrefab;
     public List<GameObject> postos;
+    public List<Text> postosNomes;
     void Start()
     {
         ReadTextFile();
@@ -30,19 +34,29 @@ public class GerenciadorPosto : MonoBehaviour {
     private void InstanciaPostos()
     {
         postos = new List<GameObject>();
+        postosNomes = new List<Text>();
+
         for (int i = 0; i < tempoPostos.Count; i++)
         {
             Vector3 pos = new Vector3(i * 1.3f, 0, 0);
             pos += postoPrefab.transform.position;
             var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
 
+            var nomePosto = Instantiate(nomePostoTxt) as Text;
+            nomePosto.transform.SetParent(canvas.transform);
+            
+            Vector3 posText = new Vector3(i * 60f, 0, 0);
+            pos += postoPrefab.transform.position;
+            nomePosto.transform.localPosition = nomePosto.transform.position + posText;
+
+            postosNomes.Add(nomePosto);
             postos.Add(posto);
         }
     }
 
     private void ReadTextFile()
     {
-        string txt = File.ReadAllText(Application.dataPath + "/StreamingAssets/Setup.txt");
+        string txt = File.ReadAllText(Application.streamingAssetsPath + "/Setup.txt");
 
         // Caso não conseguimos ler o texto (ou seja ele é nulo ou vazio)
         // Joga uma exception
@@ -112,11 +126,10 @@ public class GerenciadorPosto : MonoBehaviour {
         {
             foreach (var item in postos)
             {
+                this.postosNomes[i].text = item.Key.ToString();
                 this.postos[i].GetComponent<Posto>().letra = item.Key;
                 this.postos[i].GetComponent<Posto>().quantidade = item.Value;
                 this.postos[i].GetComponent<Posto>().turnos = 0;
-                Debug.Log(this.postos[i].GetComponent<Posto>().letra = item.Key);
-                break;
             }
         }
 
