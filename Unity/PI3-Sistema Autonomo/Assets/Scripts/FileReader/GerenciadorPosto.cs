@@ -45,9 +45,8 @@ public class GerenciadorPosto : MonoBehaviour {
             var nomePosto = Instantiate(nomePostoTxt) as Text;
             nomePosto.transform.SetParent(canvas.transform);
             
-            Vector3 posText = new Vector3(i * 60f, 0, 0);
-            pos += postoPrefab.transform.position;
-            nomePosto.transform.localPosition = nomePosto.transform.position + posText;
+            Vector3 posText = new Vector3(-350, 210, 0);
+            nomePosto.transform.localPosition = posText + new Vector3(i * 60f, 0, 0);
 
             postosNomes.Add(nomePosto);
             postos.Add(posto);
@@ -102,7 +101,7 @@ public class GerenciadorPosto : MonoBehaviour {
     }
     private void PopulaObjetoPosto()
     {
-        Dictionary<char, int> postos = new Dictionary<char, int>();
+        Dictionary<char, int> postosDict = new Dictionary<char, int>();
         List<Posto> postosList = new List<Posto>();
 
         // Iteramos na string e adcionamos os caracteres no dicionario
@@ -110,27 +109,27 @@ public class GerenciadorPosto : MonoBehaviour {
         // caso nescessário.
         for (int i = 0; i < relPostos.Length; i++)
         {
-            if (!postos.ContainsKey(relPostos[i]))
+            if (!postosDict.ContainsKey(relPostos[i]))
             {
-                postos.Add(relPostos[i], 1);
+                postosDict.Add(relPostos[i], 1);
             }
             else
             {
-                postos[relPostos[i]]++;
+                postosDict[relPostos[i]]++;
             }
         }
 
         // Criamos um objeto posto apartir do dicionario criado, ainda sem
         // a quantidade de turnos
-        for (int i = 0; i < this.postos.Count - 1; i++)
+        int count = 0;
+        foreach (var item in postosDict)
         {
-            foreach (var item in postos)
-            {
-                this.postosNomes[i].text = item.Key.ToString();
-                this.postos[i].GetComponent<Posto>().letra = item.Key;
-                this.postos[i].GetComponent<Posto>().quantidade = item.Value;
-                this.postos[i].GetComponent<Posto>().turnos = 0;
-            }
+            this.postos[count].GetComponent<Posto>().letra = item.Key;
+            this.postos[count].GetComponent<Posto>().quantidade = item.Value;
+            this.postos[count].GetComponent<Posto>().turnos = 0;
+
+            this.postosNomes[count].text = this.postos[count].GetComponent<Posto>().letra.ToString();
+            count++;
         }
 
         // Adcionamos os turnos ao objeto posto
