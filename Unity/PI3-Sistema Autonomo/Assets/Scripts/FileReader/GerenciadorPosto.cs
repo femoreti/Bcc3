@@ -6,12 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GerenciadorPosto : MonoBehaviour {
-
     private int qtdAtendentes = 0;
+    private int postoWidth = 0;
 
     private string relPostos;
     private string relAtendentes;
     private List<string> tempoPostos = new List<string>();
+    private Dictionary<char, int> relPostosCount = new Dictionary<char, int>();
 
     public Text nomePostoTxt;
     public Canvas canvas;
@@ -20,7 +21,10 @@ public class GerenciadorPosto : MonoBehaviour {
     public List<Text> postosNomes;
     void Start()
     {
+        postoWidth = postoPrefab.transform.localScale.x;
+
         ReadTextFile();
+        PopulaDicionarioCharCount();
         InstanciaPostos();
         PopulaObjetoPosto();
     }
@@ -36,21 +40,51 @@ public class GerenciadorPosto : MonoBehaviour {
         postos = new List<GameObject>();
         postosNomes = new List<Text>();
 
-        for (int i = 0; i < tempoPostos.Count; i++)
+        int foreachCount = 0;
+        foreach (var item in relPostosCount)
         {
-            Vector3 pos = new Vector3(i * 1.3f, 0, 0);
-            pos += postoPrefab.transform.position;
-            var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
+            int gambiarra = 0;
+            for (int i = 0; i < item.Value; i++)
+            {
+                Vector3 pos = new Vector3(foreachCount * 1.3f, 0, 0);
+                pos += postoPrefab.transform.position;
+                
+                var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
+                posto.GetComponent<Posto>().letra = item.Key;
+                posto.GetComponent<Posto>().quantidade = item.Value;
+                posto.GetComponent<Posto>().turnos = 0;
 
-            var nomePosto = Instantiate(nomePostoTxt) as Text;
-            nomePosto.transform.SetParent(canvas.transform);
-            
-            Vector3 posText = new Vector3(-350, 210, 0);
-            nomePosto.transform.localPosition = posText + new Vector3(i * 60f, 0, 0);
+                var nomePosto = Instantiate(nomePostoTxt) as Text;
+                nomePosto.transform.SetParent(canvas.transform);
 
-            postosNomes.Add(nomePosto);
-            postos.Add(posto);
+                Vector3 posText = new Vector3(-350, 210, 0);
+                nomePosto.transform.localPosition = posText + new Vector3((i + foreachCount) * 60f, 0, 0);
+                nomePosto.text = item.Key.ToString();
+
+                postosNomes.Add(nomePosto);
+                postos.Add(posto);
+
+                gambiarra++;
+            }
+
+            foreachCount++;
         }
+
+        //for (int i = 0; i < relPostosCount.Count; i++)
+        //{
+        //    Vector3 pos = new Vector3(i * 1.3f, 0, 0);
+        //    pos += postoPrefab.transform.position;
+        //    var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
+
+        //    var nomePosto = Instantiate(nomePostoTxt) as Text;
+        //    nomePosto.transform.SetParent(canvas.transform);
+            
+        //    Vector3 posText = new Vector3(-350, 210, 0);
+        //    nomePosto.transform.localPosition = posText + new Vector3(i * 60f, 0, 0);
+
+        //    postosNomes.Add(nomePosto);
+        //    postos.Add(posto);
+        //}
     }
 
     private void ReadTextFile()
@@ -99,38 +133,40 @@ public class GerenciadorPosto : MonoBehaviour {
         tempoPostos.Remove("TROCA");
         tempoPostos.Remove("");
     }
-    private void PopulaObjetoPosto()
-    {
-        Dictionary<char, int> postosDict = new Dictionary<char, int>();
-        List<Posto> postosList = new List<Posto>();
 
+    private void PopulaDicionarioCharCount()
+    {
         // Iteramos na string e adcionamos os caracteres no dicionario
         // sem repetição e incrementamos a quantidade de postos iguais
         // caso nescessário.
         for (int i = 0; i < relPostos.Length; i++)
         {
-            if (!postosDict.ContainsKey(relPostos[i]))
+            if (!relPostosCount.ContainsKey(relPostos[i]))
             {
-                postosDict.Add(relPostos[i], 1);
+                relPostosCount.Add(relPostos[i], 1);
             }
             else
             {
-                postosDict[relPostos[i]]++;
+                relPostosCount[relPostos[i]]++;
             }
         }
+    }
 
+    private void PopulaObjetoPosto()
+    {
         // Criamos um objeto posto apartir do dicionario criado, ainda sem
         // a quantidade de turnos
-        int count = 0;
-        foreach (var item in postosDict)
-        {
-            this.postos[count].GetComponent<Posto>().letra = item.Key;
-            this.postos[count].GetComponent<Posto>().quantidade = item.Value;
-            this.postos[count].GetComponent<Posto>().turnos = 0;
 
-            this.postosNomes[count].text = this.postos[count].GetComponent<Posto>().letra.ToString();
-            count++;
-        }
+        //int count = 0;
+        //foreach (var item in relPostosCount)
+        //{
+        //    this.postos[count].GetComponent<Posto>().letra = item.Key;
+        //    this.postos[count].GetComponent<Posto>().quantidade = item.Value;
+        //    this.postos[count].GetComponent<Posto>().turnos = 0;
+
+        //    this.postosNomes[count].text = this.postos[count].GetComponent<Posto>().letra.ToString();
+        //    count++;
+        //}
 
         // Adcionamos os turnos ao objeto posto
         foreach (var item in tempoPostos)
@@ -143,7 +179,6 @@ public class GerenciadorPosto : MonoBehaviour {
                 if (posto.GetComponent<Posto>().letra.ToString() == letra)
                 {
                     posto.GetComponent<Posto>().turnos = Convert.ToInt16(turnos);
-                    break;
                 }
             }
         }
