@@ -6,6 +6,7 @@ using System.IO;
 public class UserCreator : MonoBehaviour
 {
     public static UserCreator Instance;
+    public GameObject _prefabUser;
     public List<UserBasics> _userLine = new List<UserBasics>();
 
 	// Use this for initialization
@@ -46,7 +47,7 @@ public class UserCreator : MonoBehaviour
 
             ub.name = userName;
             ub.arrivalTurn = int.Parse(turnoChegada.Replace("C", ""));
-            ub.walkOrder = new System.Collections.Generic.List<char>();
+            ub.walkOrder = new List<char>();
             //Debug.Log("name - " + ub.name);
             //Debug.Log("chegada - " + ub.arrivalTurn);
 

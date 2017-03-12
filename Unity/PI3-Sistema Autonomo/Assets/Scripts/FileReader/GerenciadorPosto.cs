@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class GerenciadorPosto : MonoBehaviour {
     private int qtdAtendentes = 0;
-    private int postoWidth = 0;
+    private float postoWidth = 0;
 
     private string relPostos;
     private string relAtendentes;
@@ -51,7 +51,7 @@ public class GerenciadorPosto : MonoBehaviour {
                 
                 var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
                 posto.GetComponent<Posto>().letra = item.Key;
-                posto.GetComponent<Posto>().quantidade = item.Value;
+                //posto.GetComponent<Posto>().quantidade = item.Value; //Nao existe mais
                 posto.GetComponent<Posto>().turnos = 0;
 
                 var nomePosto = Instantiate(nomePostoTxt) as Text;
