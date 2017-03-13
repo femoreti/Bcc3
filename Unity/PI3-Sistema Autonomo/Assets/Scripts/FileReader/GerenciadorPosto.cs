@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class GerenciadorPosto : MonoBehaviour {
     private int qtdAtendentes = 0;
     private float postoWidth = 0;
-
     private string relPostos;
     private string relAtendentes;
     private List<string> tempoPostos = new List<string>();
@@ -22,9 +21,7 @@ public class GerenciadorPosto : MonoBehaviour {
     void Start()
     {
         postoWidth = postoPrefab.transform.localScale.x;
-
         ReadTextFile();
-        PopulaDicionarioCharCount();
         InstanciaPostos();
         PopulaObjetoPosto();
     }
@@ -39,52 +36,26 @@ public class GerenciadorPosto : MonoBehaviour {
     {
         postos = new List<GameObject>();
         postosNomes = new List<Text>();
+        
+        int count = 0;
+        float separator = 0.3f;
+        Vector3 postoPos = postoPrefab.transform.position;
+        Vector3 labelPos = nomePostoTxt.transform.position;
 
-        int foreachCount = 0;
-        foreach (var item in relPostosCount)
-        {
-            int gambiarra = 0;
-            for (int i = 0; i < item.Value; i++)
-            {
-                Vector3 pos = new Vector3(foreachCount * 1.3f, 0, 0);
-                pos += postoPrefab.transform.position;
-                
-                var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
-                posto.GetComponent<Posto>().letra = item.Key;
-                //posto.GetComponent<Posto>().quantidade = item.Value; //Nao existe mais
-                posto.GetComponent<Posto>().turnos = 0;
+        foreach (char item in relPostos) {
+            GameObject newPosto = Instantiate(postoPrefab, postoPos, Quaternion.identity) as GameObject;
+            postoPos += new Vector3(postoWidth + separator, 0, 0);
+            newPosto.GetComponent<Posto>().letra = item;
 
-                var nomePosto = Instantiate(nomePostoTxt) as Text;
-                nomePosto.transform.SetParent(canvas.transform);
+            Text postoLabel = Instantiate(nomePostoTxt) as Text;
+            postoLabel.transform.SetParent(canvas.transform);
+            postoLabel.text = item.ToString();
 
-                Vector3 posText = new Vector3(-350, 210, 0);
-                nomePosto.transform.localPosition = posText + new Vector3((i + foreachCount) * 60f, 0, 0);
-                nomePosto.text = item.Key.ToString();
+            postosNomes.Add(postoLabel);
+            postos.Add(newPosto);
 
-                postosNomes.Add(nomePosto);
-                postos.Add(posto);
-
-                gambiarra++;
-            }
-
-            foreachCount++;
+            count++;
         }
-
-        //for (int i = 0; i < relPostosCount.Count; i++)
-        //{
-        //    Vector3 pos = new Vector3(i * 1.3f, 0, 0);
-        //    pos += postoPrefab.transform.position;
-        //    var posto = Instantiate(postoPrefab, pos, Quaternion.identity) as GameObject;
-
-        //    var nomePosto = Instantiate(nomePostoTxt) as Text;
-        //    nomePosto.transform.SetParent(canvas.transform);
-            
-        //    Vector3 posText = new Vector3(-350, 210, 0);
-        //    nomePosto.transform.localPosition = posText + new Vector3(i * 60f, 0, 0);
-
-        //    postosNomes.Add(nomePosto);
-        //    postos.Add(posto);
-        //}
     }
 
     private void ReadTextFile()
@@ -134,40 +105,8 @@ public class GerenciadorPosto : MonoBehaviour {
         tempoPostos.Remove("");
     }
 
-    private void PopulaDicionarioCharCount()
-    {
-        // Iteramos na string e adcionamos os caracteres no dicionario
-        // sem repetição e incrementamos a quantidade de postos iguais
-        // caso nescessário.
-        for (int i = 0; i < relPostos.Length; i++)
-        {
-            if (!relPostosCount.ContainsKey(relPostos[i]))
-            {
-                relPostosCount.Add(relPostos[i], 1);
-            }
-            else
-            {
-                relPostosCount[relPostos[i]]++;
-            }
-        }
-    }
-
     private void PopulaObjetoPosto()
     {
-        // Criamos um objeto posto apartir do dicionario criado, ainda sem
-        // a quantidade de turnos
-
-        //int count = 0;
-        //foreach (var item in relPostosCount)
-        //{
-        //    this.postos[count].GetComponent<Posto>().letra = item.Key;
-        //    this.postos[count].GetComponent<Posto>().quantidade = item.Value;
-        //    this.postos[count].GetComponent<Posto>().turnos = 0;
-
-        //    this.postosNomes[count].text = this.postos[count].GetComponent<Posto>().letra.ToString();
-        //    count++;
-        //}
-
         // Adcionamos os turnos ao objeto posto
         foreach (var item in tempoPostos)
         {
@@ -180,6 +119,9 @@ public class GerenciadorPosto : MonoBehaviour {
                 {
                     posto.GetComponent<Posto>().turnos = Convert.ToInt16(turnos);
                 }
+
+                Debug.Log("LETRA: " + posto.GetComponent<Posto>().letra);
+                Debug.Log("TURNO: " + posto.GetComponent<Posto>().turnos);
             }
         }
     }

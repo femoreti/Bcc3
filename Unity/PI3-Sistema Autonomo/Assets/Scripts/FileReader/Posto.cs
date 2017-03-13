@@ -9,7 +9,6 @@ public class Posto: MonoBehaviour {
     //public static Posto INSTANCE;
     public char letra;
     public int turnos;
-    public int quantidade;
     public bool temAtendente;
 
     private User _userSendoAtendido;

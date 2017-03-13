@@ -46,6 +46,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Controller.cs" />
+     <Compile Include="Assets\Scripts\Fila\FilaManager.cs" />
      <Compile Include="Assets\Scripts\FileReader\GerenciadorPosto.cs" />
      <Compile Include="Assets\Scripts\FileReader\Posto.cs" />
      <Compile Include="Assets\Scripts\User\User.cs" />
