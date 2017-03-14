@@ -38,17 +38,21 @@ public class GerenciadorPosto : MonoBehaviour {
         postosNomes = new List<Text>();
         
         int count = 0;
-        float separator = 0.3f;
+        float postoSeparator = 0.3f;
+        float nomePostoSeparator = 40f;
         Vector3 postoPos = postoPrefab.transform.position;
         Vector3 labelPos = nomePostoTxt.transform.position;
 
         foreach (char item in relPostos) {
             GameObject newPosto = Instantiate(postoPrefab, postoPos, Quaternion.identity) as GameObject;
-            postoPos += new Vector3(postoWidth + separator, 0, 0);
+            postoPos += new Vector3(postoWidth + postoSeparator, 0, 0);
             newPosto.GetComponent<Posto>().letra = item;
 
             Text postoLabel = Instantiate(nomePostoTxt) as Text;
             postoLabel.transform.SetParent(canvas.transform);
+            postoLabel.transform.localPosition = labelPos;
+            labelPos = new Vector3(postoLabel.transform.localPosition.x + nomePostoSeparator, postoLabel.transform.localPosition.y, postoLabel.transform.localPosition.y);
+            
             postoLabel.text = item.ToString();
 
             postosNomes.Add(postoLabel);
