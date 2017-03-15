@@ -13,14 +13,16 @@ public class GerenciadorPosto : MonoBehaviour {
     private List<string> tempoPostos = new List<string>();
     private Dictionary<char, int> relPostosCount = new Dictionary<char, int>();
 
-    public Text nomePostoTxt;
-    public Canvas canvas;
+    //public Text nomePostoTxt;
+    //public Canvas canvas;
     public GameObject postoPrefab;
-    public List<GameObject> postos;
+    public GameObject containerPostos; //temporario ateh proxima versao
+    public List<Posto> postos;
     public List<Text> postosNomes;
-    void Start()
+
+    public void Init()
     {
-        postoWidth = postoPrefab.transform.localScale.x;
+        //postoWidth = postoPrefab.transform.localScale.x;
         ReadTextFile();
         InstanciaPostos();
         PopulaObjetoPosto();
@@ -34,29 +36,18 @@ public class GerenciadorPosto : MonoBehaviour {
 
     private void InstanciaPostos()
     {
-        postos = new List<GameObject>();
+        postos = new List<Posto>();
         postosNomes = new List<Text>();
         
         int count = 0;
-        float postoSeparator = 0.3f;
-        float nomePostoSeparator = 40f;
         Vector3 postoPos = postoPrefab.transform.position;
-        Vector3 labelPos = nomePostoTxt.transform.position;
 
         foreach (char item in relPostos) {
-            GameObject newPosto = Instantiate(postoPrefab, postoPos, Quaternion.identity) as GameObject;
-            postoPos += new Vector3(postoWidth + postoSeparator, 0, 0);
-            newPosto.GetComponent<Posto>().letra = item;
+            GameObject newPosto = Instantiate(postoPrefab, containerPostos.transform) as GameObject;
 
-            Text postoLabel = Instantiate(nomePostoTxt) as Text;
-            postoLabel.transform.SetParent(canvas.transform);
-            postoLabel.transform.localPosition = labelPos;
-            labelPos = new Vector3(postoLabel.transform.localPosition.x + nomePostoSeparator, postoLabel.transform.localPosition.y, postoLabel.transform.localPosition.y);
-            
-            postoLabel.text = item.ToString();
-
-            postosNomes.Add(postoLabel);
-            postos.Add(newPosto);
+            Posto p = newPosto.GetComponent<Posto>();
+            p.letra = item;
+            postos.Add(p);
 
             count++;
         }
@@ -112,20 +103,18 @@ public class GerenciadorPosto : MonoBehaviour {
     private void PopulaObjetoPosto()
     {
         // Adcionamos os turnos ao objeto posto
-        foreach (var item in tempoPostos)
+        foreach (string item in tempoPostos)
         {
-            var letra = item.Substring(0, 1);
-            var turnos = item.Substring(1, item.Length - 1);
+            string letra = item.Substring(0, 1);
+            string turnos = item.Substring(1, item.Length - 1);
 
-            foreach (var posto in this.postos)
+            foreach (Posto posto in this.postos)
             {
-                if (posto.GetComponent<Posto>().letra.ToString() == letra)
+                if (posto.letra.ToString() == letra)
                 {
-                    posto.GetComponent<Posto>().turnos = Convert.ToInt16(turnos);
+                    posto.name = letra;
+                    posto.turnos = Convert.ToInt16(turnos);
                 }
-
-                Debug.Log("LETRA: " + posto.GetComponent<Posto>().letra);
-                Debug.Log("TURNO: " + posto.GetComponent<Posto>().turnos);
             }
         }
     }

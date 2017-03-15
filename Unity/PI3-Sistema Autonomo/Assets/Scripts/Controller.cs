@@ -8,6 +8,7 @@ public class Controller : MonoBehaviour
     public static Controller Instance;
     public int _currentWorldTurn = 0;
 
+    public GerenciadorPosto _gerenciadorDePosto;
     public FilaManager _filaManager;
     public List<Posto> _postos = new List<Posto>();
 
@@ -23,8 +24,17 @@ public class Controller : MonoBehaviour
 	void Start () {
         _contadorTurnos = GameObject.Find("Turno").GetComponent<Text>();
 
+        _gerenciadorDePosto.Init();
+        _postos = _gerenciadorDePosto.postos;
+
+    }
+
+    public void onClickStart()
+    {
+
+
         StartCoroutine(GameTime());
-	}
+    }
 
     IEnumerator GameTime()
     {

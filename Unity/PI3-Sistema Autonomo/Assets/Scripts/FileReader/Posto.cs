@@ -31,20 +31,24 @@ public class Posto: MonoBehaviour {
     {
         if (!temAtendente)
             return;
-
-        if(_userSendoAtendido != null || _minhaFila._userInside.Count > 0)
+        //Debug.Log("temAtendente");
+        if (_userSendoAtendido != null || _minhaFila._userInside.Count > 0)
             _atendimentoRestante--;
 
-        if(_atendimentoRestante <= 0) // verifica se terminou de atender o usuario e passa ele para proxima fila
+        
+
+        if (_atendimentoRestante <= 0) // verifica se terminou de atender o usuario e passa ele para proxima fila
         {
             if (_userSendoAtendido != null)
             {
-                Debug.Log(_userSendoAtendido.userStats.name + " proxima etapa");
+                //Debug.Log(_userSendoAtendido.userStats.name + " proxima etapa");
                 _userSendoAtendido.ProximaFila();
                 _userSendoAtendido = null;
             }
             if(_minhaFila._userInside.Count > 0)
-            { 
+            {
+                //Debug.Log("_minhaFila._userInside.Count > 0");
+
                 //chama o proximo da sua fila
                 _userSendoAtendido = _minhaFila.RetiraProximo();
                 _userSendoAtendido.transform.parent = this.transform;
