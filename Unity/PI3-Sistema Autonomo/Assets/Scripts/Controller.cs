@@ -27,6 +27,7 @@ public class Controller : MonoBehaviour
         _gerenciadorDePosto.Init();
         _postos = _gerenciadorDePosto.postos;
 
+        _filaManager.CriarFilas(_gerenciadorDePosto.totalPostosDistindos);
     }
 
     public void onClickStart()

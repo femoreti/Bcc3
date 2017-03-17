@@ -20,6 +20,8 @@ public class GerenciadorPosto : MonoBehaviour {
     public List<Posto> postos;
     public List<Text> postosNomes;
 
+    public int totalPostosDistindos { get; set; }
+
     public void Init()
     {
         //postoWidth = postoPrefab.transform.localScale.x;
@@ -89,6 +91,7 @@ public class GerenciadorPosto : MonoBehaviour {
             else
             {
                 tempoPostos.Add(temp[0]);
+                //Aqui da para pegar nome dos postos
             }
         }
 
@@ -102,20 +105,31 @@ public class GerenciadorPosto : MonoBehaviour {
 
     private void PopulaObjetoPosto()
     {
+        int totalDeFilasParaCriar = 0;
+
         // Adcionamos os turnos ao objeto posto
         foreach (string item in tempoPostos)
         {
             string letra = item.Substring(0, 1);
             string turnos = item.Substring(1, item.Length - 1);
 
+            string lastKnowLetter = "";
+
             foreach (Posto posto in this.postos)
             {
                 if (posto.letra.ToString() == letra)
                 {
+                    if(lastKnowLetter != letra)
+                    {
+                        lastKnowLetter = letra;
+                        totalDeFilasParaCriar++;
+                    }
                     posto.name = letra;
                     posto.turnos = Convert.ToInt16(turnos);
                 }
-            }
+            }         
         }
+
+        totalPostosDistindos = totalDeFilasParaCriar;
     }
 }
