@@ -107,6 +107,8 @@ public class GerenciadorPosto : MonoBehaviour {
     {
         int totalDeFilasParaCriar = 0;
 
+        
+
         // Adcionamos os turnos ao objeto posto
         foreach (string item in tempoPostos)
         {
@@ -128,6 +130,22 @@ public class GerenciadorPosto : MonoBehaviour {
                     posto.turnos = Convert.ToInt16(turnos);
                 }
             }         
+        }
+
+        for (int i = 0; i < relAtendentes.Length; i++)
+        {
+            Debug.Log(relAtendentes[i]);
+            foreach (Posto p in this.postos)
+            {
+                if (p.letra == relAtendentes[i])
+                {
+                    if (!p.temAtendente)
+                    {
+                        p.temAtendente = true;
+                        break;
+                    }
+                }
+            }
         }
 
         totalPostosDistindos = totalDeFilasParaCriar;
