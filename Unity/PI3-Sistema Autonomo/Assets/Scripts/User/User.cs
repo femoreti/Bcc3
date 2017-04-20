@@ -9,6 +9,7 @@ public struct UserBasics
 {
     public string name;
     public int arrivalTurn;
+    public int exitTurn;
     public List<char> walkOrder;
 }
 
@@ -24,7 +25,8 @@ public class User : MonoBehaviour
 	void Start ()
     {
         transform.GetChild(0).GetComponent<Text>().text = userStats.name;
-
+        Controller.Instance.totalUsers++;
+        Controller.Instance.userInSistem++;
     }
 	
 	// Update is called once per frame
@@ -65,7 +67,11 @@ public class User : MonoBehaviour
             //Destroy(this.gameObject);
             gameObject.name = userStats.name + " / saiu";
             RemoveDaFila();
+            userStats.exitTurn = Controller.Instance._currentWorldTurn;
+            Controller.Instance.userTotalTime += userStats.exitTurn - userStats.arrivalTurn;
+            Debug.Log("user total time: " + Controller.Instance.userTotalTime.ToString());
 
+            Controller.Instance.userInSistem--;
             Destroy(this.gameObject);
         }
 

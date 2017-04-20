@@ -14,6 +14,8 @@ public class UserCreator : MonoBehaviour
     {
         Instance = this;
         ReadFilaFile();
+
+        
 	}
 	
 	// Update is called once per frame

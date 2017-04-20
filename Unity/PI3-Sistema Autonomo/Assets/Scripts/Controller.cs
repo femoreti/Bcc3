@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,12 @@ public class Controller : MonoBehaviour
 {
     public static Controller Instance;
     public int _currentWorldTurn = 0;
+
+    // Tempo medio usuario //
+    public List<UserBasics> tempUserList;
+    public int userInSistem;
+    public int userTotalTime;
+    public int totalUsers;
 
     public GerenciadorPosto _gerenciadorDePosto;
     public FilaManager _filaManager;
@@ -30,11 +37,11 @@ public class Controller : MonoBehaviour
         _filaManager.CriarFilas(_gerenciadorDePosto.totalPostosDistindos);
     }
 
+    private Coroutine gameRoutine;
     public void onClickStart()
     {
-
-
-        StartCoroutine(GameTime());
+        tempUserList = UserCreator.Instance._userLine;
+        gameRoutine = StartCoroutine(GameTime());
     }
 
     IEnumerator GameTime()
@@ -57,9 +64,9 @@ public class Controller : MonoBehaviour
             _containerUsers = new GameObject("Usuarios");
 
         //Verifica se algum usuario ira ser criado neste turno
-        for (int i = 0; i < UserCreator.Instance._userLine.Count; i++)
+        for (int i = 0; i < tempUserList.Count; i++)
         {
-            UserBasics ub = UserCreator.Instance._userLine[i];
+            UserBasics ub = tempUserList[i];
 
             if (ub.arrivalTurn == _currentWorldTurn)
             {
@@ -71,7 +78,18 @@ public class Controller : MonoBehaviour
                 comp.userStats = ub;
 
                 comp.ProximaFila();
+
+                tempUserList.RemoveAt(i);
+                i--;
             }
+        }
+
+        if(userInSistem == 0 && tempUserList.Count == 0)
+        {
+            Debug.Log("fim de sistema");
+            Debug.Log("total user: " + totalUsers.ToString());
+            Debug.Log("tempo medio user: " + ((float)userTotalTime / (float)totalUsers).ToString());
+            StopCoroutine(gameRoutine);
         }
     }
 
