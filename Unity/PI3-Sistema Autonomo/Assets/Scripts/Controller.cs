@@ -15,6 +15,9 @@ public class Controller : MonoBehaviour
     public int userTotalTime;
     public int totalUsers;
 
+    //User que ficou mais tempo
+    private User userHighestTime;
+
     public GerenciadorPosto _gerenciadorDePosto;
     public FilaManager _filaManager;
     public List<Posto> _postos = new List<Posto>();
@@ -54,11 +57,12 @@ public class Controller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cada novo turno comeca nesse metodo
+    /// </summary>
     public void OnAddTurn()
     {
         _currentWorldTurn++;
-
-        AvancaPostos(); //Faz os postos verificarem se podem retirar alguem das filas
 
         if (_containerUsers == null)
             _containerUsers = new GameObject("Usuarios");
@@ -84,15 +88,39 @@ public class Controller : MonoBehaviour
             }
         }
 
-        if(userInSistem == 0 && tempUserList.Count == 0)
+        AvancaPostos(); //Faz os postos verificarem se podem retirar alguem das filas
+
+
+        if (userInSistem == 0 && tempUserList.Count == 0)
         {
             Debug.Log("fim de sistema");
-            Debug.Log("total user: " + totalUsers.ToString());
+
             Debug.Log("tempo medio user: " + ((float)userTotalTime / (float)totalUsers).ToString());
+            Debug.Log("tempo medio espera fila:\n");
+            _filaManager.TempoMedioPorFila();
+            Debug.Log("User com maior tempo no sistema: " + userHighestTime.userStats.name);
+
             StopCoroutine(gameRoutine);
         }
     }
 
+    /// <summary>
+    /// Cada vez q um usuario sair do sistema ira cair aqui
+    /// </summary>
+    /// <param name="u"></param>
+    public void UserLeavingSistem(User u)
+    {
+        if(userHighestTime == null || u.totalTimeInSistem > userHighestTime.totalTimeInSistem)
+        {
+            userHighestTime = u;
+        }
+
+        userTotalTime += u.totalTimeInSistem;
+    }
+
+    /// <summary>
+    /// Passa o turno para os postos chamarem o proximo user
+    /// </summary>
     public void AvancaPostos()
     {
         foreach(Posto p in _postos)

@@ -33,19 +33,35 @@ public enum FilaType
 }
 
 [System.Serializable]
-public struct Fila
+public class Fila : MonoBehaviour
 {
     public FilaType _myType;
     public List<User> _userInside;
     public GameObject _parent;
+    public int _totalTimeUserInside;
+    public int _totalUsers;
 
-    public Fila(int i, GameObject parent)
+    /// <summary>
+    /// Inicia uma fila
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="parent"></param>
+    public void setConfig(int i, GameObject parent)
     {
         _myType = (FilaType)i;
+
+        gameObject.name = "Fila " + _myType.ToString();
+
         _userInside = new List<User>();
         _parent = parent;
+        _totalTimeUserInside = 0; //tempo total que os usuarios gastaram na fila
+        _totalUsers = 0; //total que passou na fila
     }
 
+    /// <summary>
+    /// Retira o primeiro da fila para os guiches
+    /// </summary>
+    /// <returns></returns>
     public User RetiraProximo()
     {
         User _proximo = _userInside[0];
@@ -65,18 +81,29 @@ public class FilaManager : MonoBehaviour
 
 	}
 
+    /// <summary>
+    /// Cria o objeto fila
+    /// </summary>
+    /// <param name="total"></param>
     public void CriarFilas(int total)
     {
         _filas.Clear();
         for(int i = 0; i < total; i++)
         {
             GameObject go = Instantiate(prefabFila, filaContainer.transform);
-            Fila f = new Fila(i, go);
+            Fila f = go.AddComponent<Fila>();
+
+            f.setConfig(i, go);
 
             _filas.Add(f);
         }
     }
 
+    /// <summary>
+    /// Encontra a fila especifica
+    /// </summary>
+    /// <param name="_seachType"></param>
+    /// <returns></returns>
     public Fila AchaFila(FilaType _seachType)
     {
         for(int i = 0; i < _filas.Count; i++)
@@ -87,6 +114,17 @@ public class FilaManager : MonoBehaviour
             }
         }
 
-        return new Fila();
+        return null;
+    }
+
+    /// <summary>
+    /// Ao fim do sistema ira exibir o tempo medio de cada fila
+    /// </summary>
+    public void TempoMedioPorFila()
+    {
+        foreach(Fila f in _filas)
+        {
+            Debug.Log("Fila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers));
+        }
     }
 }
