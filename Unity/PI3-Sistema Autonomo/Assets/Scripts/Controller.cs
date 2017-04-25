@@ -8,6 +8,8 @@ public class Controller : MonoBehaviour
 {
     public static Controller Instance;
     public int _currentWorldTurn = 0;
+    public int _gameSpeed = 1;
+    private bool _gamePause;
 
     // Tempo medio usuario //
     public List<UserBasics> tempUserList;
@@ -17,6 +19,9 @@ public class Controller : MonoBehaviour
 
     //User que ficou mais tempo
     private User userHighestTime;
+
+    // Tempo médio por combinação //
+    public Dictionary<string, int> _totalTimeByType, _totalUserByType;
 
     public GerenciadorPosto _gerenciadorDePosto;
     public FilaManager _filaManager;
@@ -34,6 +39,15 @@ public class Controller : MonoBehaviour
 	void Start () {
         _contadorTurnos = GameObject.Find("Turno").GetComponent<Text>();
 
+        _gameSpeed = 1;
+        if (_totalTimeByType == null)
+        {
+            _totalTimeByType = new Dictionary<string, int>();
+            _totalUserByType = new Dictionary<string, int>();
+        }
+        _totalTimeByType.Clear();
+        _totalUserByType.Clear();
+
         _gerenciadorDePosto.Init();
         _postos = _gerenciadorDePosto.postos;
 
@@ -47,12 +61,34 @@ public class Controller : MonoBehaviour
         gameRoutine = StartCoroutine(GameTime());
     }
 
+    public void OnPause()
+    {
+        if(!_gamePause)
+        {
+            //Pausa o programa
+
+            if(gameRoutine != null)
+                StopCoroutine(gameRoutine);
+        }
+        else
+        {
+            //UnPause
+            gameRoutine = StartCoroutine(GameTime());
+        }
+        _gamePause = !_gamePause;
+    }
+
+    public void onClickSpeed(int speed)
+    {
+        _gameSpeed = speed;
+    }
+
     IEnumerator GameTime()
     {
         while (true)
         {
             _contadorTurnos.text = "Turnos: " + _currentWorldTurn.ToString();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f / _gameSpeed);
             OnAddTurn();
         }
     }
@@ -100,6 +136,13 @@ public class Controller : MonoBehaviour
             _filaManager.TempoMedioPorFila();
             Debug.Log("User com maior tempo no sistema: " + userHighestTime.userStats.name);
 
+            foreach(KeyValuePair<string, int> d in _totalTimeByType)
+            {
+                //Debug.Log(d.Key + " ---- " + d.Value);
+                //Debug.Log(_totalUserByType[d.Key]);
+                Debug.Log("Tempo medio no percurso " + d.Key + " foi de: " + ((float)d.Value / (float)_totalUserByType[d.Key]));
+            }
+
             StopCoroutine(gameRoutine);
         }
     }
@@ -114,6 +157,16 @@ public class Controller : MonoBehaviour
         {
             userHighestTime = u;
         }
+
+        //Controla o tempo medio por tipo de percurso
+        if (!_totalTimeByType.ContainsKey(u.userStats.order))
+        {
+            _totalTimeByType.Add(u.userStats.order, 0);
+            _totalUserByType.Add(u.userStats.order, 0);
+        }
+        _totalTimeByType[u.userStats.order] += u.totalTimeInSistem;
+        _totalUserByType[u.userStats.order]++;
+
 
         userTotalTime += u.totalTimeInSistem;
     }

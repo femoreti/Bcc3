@@ -54,10 +54,10 @@ public class UserCreator : MonoBehaviour
             //Debug.Log("chegada - " + ub.arrivalTurn);
 
             //Debug.Log("guiches - " + ordemGuiches);
+            ub.order = ordemGuiches;
             for (int j = 0; j < ordemGuiches.Length; j++)
             {
                 ub.walkOrder.Add(ordemGuiches[j]);
-                //Debug.Log("guiches - " + ordemGuiches[j]);
             }
 
             _userLine.Add(ub);

@@ -11,6 +11,7 @@ public struct UserBasics
     public int arrivalTurn;
     public int exitTurn;
     public List<char> walkOrder;
+    public string order;
 }
 
 public class User : MonoBehaviour
@@ -78,7 +79,7 @@ public class User : MonoBehaviour
 
             Controller.Instance.userInSistem--;
 
-            Debug.Log(userStats.name + " saiu do sistema " + totalTimeInSistem);
+            //Debug.Log(userStats.name + " saiu do sistema " + totalTimeInSistem);
             Destroy(this.gameObject);
         }
 

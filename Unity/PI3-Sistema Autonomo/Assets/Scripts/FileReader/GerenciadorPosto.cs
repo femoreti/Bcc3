@@ -132,9 +132,10 @@ public class GerenciadorPosto : MonoBehaviour {
             }         
         }
 
+        //Inicia os atendentes nos postos correspondentes
         for (int i = 0; i < relAtendentes.Length; i++)
         {
-            Debug.Log(relAtendentes[i]);
+            //Debug.Log(relAtendentes[i]);
             foreach (Posto p in this.postos)
             {
                 if (p.letra == relAtendentes[i])
