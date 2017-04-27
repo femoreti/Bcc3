@@ -45,15 +45,15 @@ public class Fila : MonoBehaviour
     /// Inicia uma fila
     /// </summary>
     /// <param name="i"></param>
-    /// <param name="parent"></param>
-    public void setConfig(int i, GameObject parent)
+    /// <param name="lineObj"></param>
+    public void setConfig(int i, GameObject lineObj)
     {
         _myType = (FilaType)i;
 
         gameObject.name = "Fila " + _myType.ToString();
 
         _userInside = new List<User>();
-        _parent = parent;
+        _parent = lineObj;
         _totalTimeUserInside = 0; //tempo total que os usuarios gastaram na fila
         _totalUsers = 0; //total que passou na fila
     }
@@ -88,14 +88,42 @@ public class FilaManager : MonoBehaviour
     public void CriarFilas(int total)
     {
         _filas.Clear();
-        for(int i = 0; i < total; i++)
+        List<Posto> tempPosto = Controller.Instance._postos;
+
+        for (int i = 0; i < total; i++)
         {
             GameObject go = Instantiate(prefabFila, filaContainer.transform);
             Fila f = go.AddComponent<Fila>();
 
             f.setConfig(i, go);
-
             _filas.Add(f);
+
+            Vector3 posPosto = Vector3.zero;
+            Vector2 delta = Vector2.zero;
+            int totalPostos = 0;
+            for (int j = 0; j < tempPosto.Count; j++)
+            {
+                if (tempPosto[j]._myType == f._myType)
+                {
+                    //Debug.Log("fila " + tempPosto[j]._myType + " encontrou ");
+                    posPosto += tempPosto[j].transform.position;
+                    totalPostos++;
+                    RectTransform postoSize = tempPosto[j].GetComponent<RectTransform>();
+                    go.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.y, postoSize.sizeDelta.y);
+
+                    delta = postoSize.sizeDelta;
+
+                    tempPosto[j]._minhaFila = f;
+                    //tempPosto.RemoveAt(j);
+                    //j--;
+                }
+                else
+                    continue;
+            }
+
+            go.transform.position = new Vector3(posPosto.x/totalPostos + delta.x + 20f, posPosto.y/totalPostos, 0);
+            go.transform.localScale = Vector3.one;
+            //Debug.Log("fila " + i + " pos " + posPosto);
         }
     }
 

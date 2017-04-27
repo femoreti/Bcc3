@@ -9,7 +9,6 @@ public class Controller : MonoBehaviour
     public static Controller Instance;
     public int _currentWorldTurn = 0;
     public int _gameSpeed = 1;
-    private bool _gamePause;
 
     // Tempo medio usuario //
     public List<UserBasics> tempUserList;
@@ -36,7 +35,7 @@ public class Controller : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Start () {
+	IEnumerator Start () {
         _contadorTurnos = GameObject.Find("Turno").GetComponent<Text>();
 
         _gameSpeed = 1;
@@ -51,39 +50,19 @@ public class Controller : MonoBehaviour
         _gerenciadorDePosto.Init();
         _postos = _gerenciadorDePosto.postos;
 
+        yield return new WaitForEndOfFrame();
         _filaManager.CriarFilas(_gerenciadorDePosto.totalPostosDistindos);
     }
 
-    private Coroutine gameRoutine;
+    [HideInInspector]
+    public Coroutine gameRoutine;
     public void onClickStart()
     {
         tempUserList = UserCreator.Instance._userLine;
         gameRoutine = StartCoroutine(GameTime());
     }
 
-    public void OnPause()
-    {
-        if(!_gamePause)
-        {
-            //Pausa o programa
-
-            if(gameRoutine != null)
-                StopCoroutine(gameRoutine);
-        }
-        else
-        {
-            //UnPause
-            gameRoutine = StartCoroutine(GameTime());
-        }
-        _gamePause = !_gamePause;
-    }
-
-    public void onClickSpeed(int speed)
-    {
-        _gameSpeed = speed;
-    }
-
-    IEnumerator GameTime()
+    public IEnumerator GameTime()
     {
         while (true)
         {

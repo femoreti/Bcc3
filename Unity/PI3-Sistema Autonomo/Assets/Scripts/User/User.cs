@@ -62,6 +62,7 @@ public class User : MonoBehaviour
                 if (f._parent != null)
                 {
                     transform.parent = f._parent.transform;
+                    transform.localScale = Vector3.one;
                 }
             }
             

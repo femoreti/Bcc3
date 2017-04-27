@@ -45,7 +45,8 @@ public class GerenciadorPosto : MonoBehaviour {
         Vector3 postoPos = postoPrefab.transform.position;
 
         foreach (char item in relPostos) {
-            GameObject newPosto = Instantiate(postoPrefab, containerPostos.transform) as GameObject;
+            GameObject newPosto = Instantiate(postoPrefab) as GameObject;
+            newPosto.transform.SetParent(containerPostos.transform,false);
 
             Posto p = newPosto.GetComponent<Posto>();
             p.letra = item;
@@ -106,9 +107,6 @@ public class GerenciadorPosto : MonoBehaviour {
     private void PopulaObjetoPosto()
     {
         int totalDeFilasParaCriar = 0;
-
-        
-
         // Adcionamos os turnos ao objeto posto
         foreach (string item in tempoPostos)
         {
@@ -127,6 +125,8 @@ public class GerenciadorPosto : MonoBehaviour {
                         totalDeFilasParaCriar++;
                     }
                     posto.name = letra;
+
+                    posto._myType = (FilaType)Enum.Parse(typeof(FilaType), letra.ToString());
                     posto.turnos = Convert.ToInt16(turnos);
                 }
             }         
@@ -142,7 +142,7 @@ public class GerenciadorPosto : MonoBehaviour {
                 {
                     if (!p.temAtendente)
                     {
-                        p.temAtendente = true;
+                        p.setAtendente = true;
                         break;
                     }
                 }

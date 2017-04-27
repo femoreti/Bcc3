@@ -13,7 +13,8 @@ public class Posto: MonoBehaviour {
 
     private User _userSendoAtendido;
     private int _atendimentoRestante;
-    private Fila _minhaFila;
+    public FilaType _myType;
+    public Fila _minhaFila;
 
     void Awake()
     {
@@ -23,8 +24,7 @@ public class Posto: MonoBehaviour {
     void Start()
     {
         transform.GetChild(0).GetComponent<Text>().text = gameObject.name;
-
-        _minhaFila = Controller.Instance._filaManager.AchaFila((FilaType)Enum.Parse(typeof(FilaType), letra.ToString()));
+        //_minhaFila = Controller.Instance._filaManager.AchaFila(_myType);
     }
 
     public void PassaTurno()
@@ -47,9 +47,38 @@ public class Posto: MonoBehaviour {
                 //chama o proximo da sua fila
                 _userSendoAtendido = _minhaFila.RetiraProximo();
                 _userSendoAtendido.transform.parent = this.transform;
-                _userSendoAtendido.transform.position = new Vector3(this.transform.position.x + 100, this.transform.position.y, this.transform.position.z);
+                Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 5f, this.transform.position.y, this.transform.position.z);
+
+
+
+                if (_userSendoAtendido.transform.localPosition.x > 0)
+                {
+                    NightTween.Create(_userSendoAtendido.gameObject, (1f / Controller.Instance._gameSpeed) / 2f, new NightTweenParams()
+                    .Property(NTPropType.transformPosition, userNewPos)
+                    );
+                }
+                else
+                {
+                    Debug.Log("valor0");
+                    _userSendoAtendido.transform.position = userNewPos;
+                }
+
                 _atendimentoRestante = turnos;
             }
+        }
+    }
+
+    public bool setAtendente
+    {
+        get
+        {
+            return temAtendente;
+        }
+        set
+        {
+            //GetComponent<Image>().enabled = value;
+
+            temAtendente = value;
         }
     }
 }
