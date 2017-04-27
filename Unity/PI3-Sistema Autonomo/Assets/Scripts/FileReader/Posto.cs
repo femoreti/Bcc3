@@ -23,7 +23,7 @@ public class Posto: MonoBehaviour {
 
     void Start()
     {
-        transform.GetChild(0).GetComponent<Text>().text = gameObject.name;
+        transform.FindChild("Text").GetComponent<Text>().text = gameObject.name;
         //_minhaFila = Controller.Instance._filaManager.AchaFila(_myType);
     }
 
@@ -76,8 +76,7 @@ public class Posto: MonoBehaviour {
         }
         set
         {
-            //GetComponent<Image>().enabled = value;
-
+            GetComponent<Image>().enabled = value;
             temAtendente = value;
         }
     }

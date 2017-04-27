@@ -81,6 +81,7 @@ public class GerenciadorPosto : MonoBehaviour {
         foreach (var item in txtArray)
         {
             var temp = item.Split(':');
+
             if (temp[0] == "RP")
             {
                 relPostos = temp[1].Replace("\r", "");
@@ -88,6 +89,10 @@ public class GerenciadorPosto : MonoBehaviour {
             else if (temp[0] == "RA")
             {
                 relAtendentes = temp[1].Replace("\r", "");
+            }
+            else if(temp[0] == "TROCA")
+            {
+                //Se troca for 0 marcar para q nao possa realizar transições
             }
             else
             {
@@ -100,7 +105,7 @@ public class GerenciadorPosto : MonoBehaviour {
         // Remove o TROCA e o ultimo espaço em branco do vetor para 
         // termos so os postos e os turnos
         tempoPostos.RemoveAt(0);
-        tempoPostos.Remove("TROCA");
+        //tempoPostos.Remove("TROCA");
         tempoPostos.Remove("");
     }
 

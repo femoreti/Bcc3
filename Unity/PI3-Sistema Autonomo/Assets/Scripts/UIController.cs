@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    private UIController instance;
-    public UIController Instance
+    private static UIController instance;
+    public static UIController Instance
     {
         get
         {
@@ -14,8 +14,10 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public GameObject _containerSpeed, _btnPause, _btnStart;
+    public GameObject _containerSpeed, _btnPause, _btnStart, _endScreen;
     public Image _imagePause, _imagePlay;
+
+    public Text _endScreenStatsText;
 
     private bool _gamePause;
 
@@ -35,6 +37,7 @@ public class UIController : MonoBehaviour
         _containerSpeed.SetActive(false);
         _btnStart.SetActive(true);
         _btnPause.SetActive(false);
+        _endScreen.SetActive(false);
         _imagePlay.enabled = false;
         _imagePause.enabled = true;
     }
@@ -78,5 +81,19 @@ public class UIController : MonoBehaviour
     public void onClickReset()
     {
         onReset();
+        Controller.Instance.onReset();
+    }
+
+    public void onShowEndScreen(string textToShow)
+    {
+        _endScreen.SetActive(true);
+        _endScreenStatsText.text = textToShow;
+    }
+
+    public void onCloseEndSreen()
+    {
+        onClickReset();
+
+        _endScreen.SetActive(false);
     }
 }

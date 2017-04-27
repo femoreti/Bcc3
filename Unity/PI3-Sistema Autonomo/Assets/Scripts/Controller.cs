@@ -6,7 +6,15 @@ using UnityEngine.UI;
 
 public class Controller : MonoBehaviour
 {
-    public static Controller Instance;
+    private static Controller instance;
+    public static Controller Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
     public int _currentWorldTurn = 0;
     public int _gameSpeed = 1;
 
@@ -31,21 +39,14 @@ public class Controller : MonoBehaviour
 
 	// Use this for initialization
 	void Awake () {
-        Instance = this;
+        instance = this;
 	}
 
 	// Update is called once per frame
 	IEnumerator Start () {
         _contadorTurnos = GameObject.Find("Turno").GetComponent<Text>();
 
-        _gameSpeed = 1;
-        if (_totalTimeByType == null)
-        {
-            _totalTimeByType = new Dictionary<string, int>();
-            _totalUserByType = new Dictionary<string, int>();
-        }
-        _totalTimeByType.Clear();
-        _totalUserByType.Clear();
+        onReset();
 
         _gerenciadorDePosto.Init();
         _postos = _gerenciadorDePosto.postos;
@@ -110,17 +111,28 @@ public class Controller : MonoBehaviour
         {
             Debug.Log("fim de sistema");
 
-            Debug.Log("tempo medio user: " + ((float)userTotalTime / (float)totalUsers).ToString());
-            Debug.Log("tempo medio espera fila:\n");
-            _filaManager.TempoMedioPorFila();
-            Debug.Log("User com maior tempo no sistema: " + userHighestTime.userStats.name);
+            string str = String.Empty;
+
+            str += "Tempo médio do usuario no sistema: " + ((float)userTotalTime / (float)totalUsers).ToString("00s") + "\n";
+            //Debug.Log("tempo medio user: " + ((float)userTotalTime / (float)totalUsers).ToString());
+
+            str += "\ntempo medio espera fila:\n";
+            //Debug.Log("tempo medio espera fila:\n");
+            
+            str += _filaManager.TempoMedioPorFila();
+
+            str += "\n\nUser com maior tempo no sistema: " + userHighestTime.userStats.name + "\n";
+            //Debug.Log("User com maior tempo no sistema: " + userHighestTime.userStats.name);
 
             foreach(KeyValuePair<string, int> d in _totalTimeByType)
             {
                 //Debug.Log(d.Key + " ---- " + d.Value);
                 //Debug.Log(_totalUserByType[d.Key]);
-                Debug.Log("Tempo medio no percurso " + d.Key + " foi de: " + ((float)d.Value / (float)_totalUserByType[d.Key]));
+                str += "\nTempo medio no percurso " + d.Key + " foi de: " + ((float)d.Value / (float)_totalUserByType[d.Key]).ToString("00s");
+                //Debug.Log("Tempo medio no percurso " + d.Key + " foi de: " + ((float)d.Value / (float)_totalUserByType[d.Key]));
             }
+
+            UIController.Instance.onShowEndScreen(str);
 
             StopCoroutine(gameRoutine);
         }
@@ -159,5 +171,18 @@ public class Controller : MonoBehaviour
         {
             p.PassaTurno();
         }
+    }
+
+    public void onReset()
+    {
+        _currentWorldTurn = 0;
+        _gameSpeed = 1;
+        if (_totalTimeByType == null)
+        {
+            _totalTimeByType = new Dictionary<string, int>();
+            _totalUserByType = new Dictionary<string, int>();
+        }
+        _totalTimeByType.Clear();
+        _totalUserByType.Clear();
     }
 }

@@ -148,11 +148,15 @@ public class FilaManager : MonoBehaviour
     /// <summary>
     /// Ao fim do sistema ira exibir o tempo medio de cada fila
     /// </summary>
-    public void TempoMedioPorFila()
+    public string TempoMedioPorFila()
     {
+        string str = string.Empty;
         foreach(Fila f in _filas)
         {
-            Debug.Log("Fila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers));
+            str += "\nFila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers);
+            //Debug.Log("Fila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers));
         }
+
+        return str;
     }
 }
