@@ -59,7 +59,7 @@ public class Atendente : MonoBehaviour
             float b = 0;
             if (countAtendentes == 1)
             {
-                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.65f);
+                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
             }
             else
             {
