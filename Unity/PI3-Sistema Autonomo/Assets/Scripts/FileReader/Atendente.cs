@@ -56,8 +56,17 @@ public class Atendente : MonoBehaviour
             }
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
-            float b =((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca));
-            if (a > b && !(countAtendentes == 1)) //Verifica o posto atual
+            float b = 0;
+            if (countAtendentes == 1)
+            {
+                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.65f);
+            }
+            else
+            {
+                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*0.5f);
+            }
+
+            if (a > b) //Verifica o posto atual
             {
                 //Considerar se compensa
                 if (tempoFila < a)
