@@ -45,10 +45,19 @@ public class Atendente : MonoBehaviour
         {
             if (posto.temAtendente || posto._atendenteVindo != null || posto == _postoAtual || posto._minhaFila._userInside.Count == 0)
                 continue;
+            
+            // Conta total de atendentes nos postos de mesma letra que o item
+            int countAtendentes = 0;
+            foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
+                if (item.letra == posto.letra) {
+                    if (item.temAtendente)
+                        countAtendentes++;
+                }
+            }
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
-            float b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca));
-            if (a > b) //Verifica o posto atual
+            float b =((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca));
+            if (a > b && !(countAtendentes == 1)) //Verifica o posto atual
             {
                 //Considerar se compensa
                 if (tempoFila < a)
@@ -56,8 +65,6 @@ public class Atendente : MonoBehaviour
                     postoFuturo = posto;
                     tempoFila = a;
                 }
-
-                
             }
         }
 

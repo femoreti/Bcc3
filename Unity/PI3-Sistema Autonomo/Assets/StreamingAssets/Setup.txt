@@ -3,8 +3,8 @@ RP:AABCCCDEFF
 RA:ABCCDEF
 TROCA:3
 A3:Triagem
-B4:Formulários
+B4:Formulï¿½rios
 C6:Fotografia
-D2:Impressão Digital
+D2:Impressï¿½o Digital
 E2:Retirada
 F4:Saida
