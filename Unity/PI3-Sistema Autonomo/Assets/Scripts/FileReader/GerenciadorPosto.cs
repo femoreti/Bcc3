@@ -147,7 +147,9 @@ public class GerenciadorPosto : MonoBehaviour {
                 {
                     if (!p.temAtendente)
                     {
-                        p.setAtendente = true;
+                        Atendente a = new Atendente();
+
+                        p.setAtendente(a);
                         break;
                     }
                 }

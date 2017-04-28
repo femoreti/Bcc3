@@ -13,9 +13,6 @@ public class UserCreator : MonoBehaviour
 	void Awake ()
     {
         Instance = this;
-        ReadFilaFile();
-
-        
 	}
 	
 	// Update is called once per frame

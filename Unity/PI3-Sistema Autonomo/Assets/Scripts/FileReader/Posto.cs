@@ -59,7 +59,7 @@ public class Posto: MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("valor0");
+                    //Debug.Log("valor0");
                     _userSendoAtendido.transform.position = userNewPos;
                 }
 
@@ -68,16 +68,10 @@ public class Posto: MonoBehaviour {
         }
     }
 
-    public bool setAtendente
+    public void setAtendente(Atendente a)
     {
-        get
-        {
-            return temAtendente;
-        }
-        set
-        {
-            GetComponent<Image>().enabled = value;
-            temAtendente = value;
-        }
+        GetComponent<Image>().enabled = true;
+        temAtendente = true;
+        //_meuAtendente = a;
     }
 }

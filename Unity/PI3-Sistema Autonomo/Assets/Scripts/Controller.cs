@@ -162,6 +162,11 @@ public class Controller : MonoBehaviour
         userTotalTime += u.totalTimeInSistem;
     }
 
+    public void onAvancaAtendentes()
+    {
+        //Atendente deve verificar aqui
+    }
+
     /// <summary>
     /// Passa o turno para os postos chamarem o proximo user
     /// </summary>
@@ -175,6 +180,8 @@ public class Controller : MonoBehaviour
 
     public void onReset()
     {
+        UserCreator.Instance.ReadFilaFile();
+
         _currentWorldTurn = 0;
         _gameSpeed = 1;
         if (_totalTimeByType == null)
