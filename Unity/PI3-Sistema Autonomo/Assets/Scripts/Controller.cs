@@ -37,6 +37,10 @@ public class Controller : MonoBehaviour
     private GameObject _containerUsers;
     private Text _contadorTurnos;
 
+    //Atendentes
+    public List<Atendente> _totalAtendentes;
+    public float multiplicadorDoTempoDeTroca = 2f;
+
 	// Use this for initialization
 	void Awake () {
         instance = this;
@@ -104,6 +108,7 @@ public class Controller : MonoBehaviour
             }
         }
 
+        onAvancaAtendentes();
         AvancaPostos(); //Faz os postos verificarem se podem retirar alguem das filas
 
 
@@ -111,9 +116,9 @@ public class Controller : MonoBehaviour
         {
             Debug.Log("fim de sistema");
 
-            string str = String.Empty;
+            string str = "Turnos: " + _currentWorldTurn.ToString();
 
-            str += "Tempo médio do usuario no sistema: " + ((float)userTotalTime / (float)totalUsers).ToString("00s") + "\n";
+            str += "\n\nTempo médio do usuario no sistema: " + ((float)userTotalTime / (float)totalUsers).ToString("00s") + "\n";
             //Debug.Log("tempo medio user: " + ((float)userTotalTime / (float)totalUsers).ToString());
 
             str += "\ntempo medio espera fila:\n";
@@ -165,6 +170,10 @@ public class Controller : MonoBehaviour
     public void onAvancaAtendentes()
     {
         //Atendente deve verificar aqui
+        foreach (Atendente a in _totalAtendentes)
+        {
+            a.onCheckIfArrive(); //verifica se o atendente esta no posto
+        }
     }
 
     /// <summary>
@@ -184,6 +193,10 @@ public class Controller : MonoBehaviour
 
         _currentWorldTurn = 0;
         _gameSpeed = 1;
+        if(_totalAtendentes == null)
+            _totalAtendentes = new List<Atendente>();
+        _totalAtendentes.Clear();
+
         if (_totalTimeByType == null)
         {
             _totalTimeByType = new Dictionary<string, int>();

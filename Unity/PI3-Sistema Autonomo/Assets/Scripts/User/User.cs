@@ -51,7 +51,7 @@ public class User : MonoBehaviour
         {
             Fila f = Controller.Instance._filaManager.AchaFila((FilaType)Enum.Parse(typeof(FilaType), userStats.walkOrder[_currentGuiche].ToString())); //Localiza a Fila deste guichê
             _line = f;
-            f._totalUsers++;
+            f._totalUsersMedia++;
 
             if (f._userInside != null)
             {

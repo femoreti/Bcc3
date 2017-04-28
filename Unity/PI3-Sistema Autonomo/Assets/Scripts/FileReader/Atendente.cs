@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Atendente : MonoBehaviour
 {
-    public bool _canChangePosto;
+    public string _myName;
+    public bool _isBusy, _isChanging;
     public Posto _postoAtual, _postoFuturo;
     public int _totalTimeToChange;
 
@@ -17,32 +18,69 @@ public class Atendente : MonoBehaviour
 
     public void onCheckIfArrive()
     {
-        if(_arrivalTurn == Controller.Instance._currentWorldTurn)
+        if (!_isChanging)
+            return;
+
+        if(_arrivalTurn >= Controller.Instance._currentWorldTurn)
         {
             //Cheguei caralho, me coloca pra trabalhar no meu posto
             _postoFuturo.setAtendente(this);
+
+            Debug.Log("Cheguei caralho, " + _myName + " posto " + _postoAtual._myType);
+            _isChanging = false;
         }
     }
 
     public void CheckTroca() {
+        //Debug.Log("check troca atendente " + _myName);
+
         Posto postoFuturo = null;
+
+        if (_isChanging || _isBusy || _totalTimeToChange == 0)
+            return;
         
-        if (_postoAtual.atendentes.Count > 1) {
-            var tempoFila = 0;
-            foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
-                if (item._minhaFila._totalUsers * item.turnos > tempoFila) {
-                    tempoFila = item._minhaFila._totalUsers * item.turnos;
-                    postoFuturo = item;
+        float tempoFila = 0;
+
+        foreach (var posto in Controller.Instance._gerenciadorDePosto.postos)
+        {
+            if (posto.temAtendente || posto._atendenteVindo != null || posto == _postoAtual || posto._minhaFila._userInside.Count == 0)
+                continue;
+
+            float a = posto._minhaFila._userInside.Count * posto.turnos;
+            float b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca));
+            if (a > b) //Verifica o posto atual
+            {
+                //Considerar se compensa
+                if (tempoFila < a)
+                {
+                    postoFuturo = posto;
+                    tempoFila = a;
                 }
 
-                // Pensar na condicao de troca
-                this._postoFuturo = postoFuturo;
-                Troca();
+                
             }
+        }
+
+        if(postoFuturo != null)
+        {
+            // Pensar na condicao de troca
+            this._postoFuturo = postoFuturo;
+
+            // tempoFilaFutura / 2 + tempoTroca < tempoFilaFutura
+            Troca();
         }
     }
 
-    public void Troca() {
-        this._postoAtual = this._postoFuturo;
+    public void Troca()
+    {
+        Debug.Log("atendente troca " + _myName + " posto " + _postoAtual._myType + " -> " + _postoFuturo._myType);
+        this._postoAtual.leaveAtendente();
+        this._postoAtual = null;
+
+        this._postoFuturo._atendenteVindo = this;
+        //this._postoAtual = this._postoFuturo;
+
+        SetArrivalTurn();
+        _isChanging = true;
     }
 }

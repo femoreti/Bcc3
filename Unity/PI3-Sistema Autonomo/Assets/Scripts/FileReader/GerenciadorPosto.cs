@@ -148,9 +148,13 @@ public class GerenciadorPosto : MonoBehaviour {
                 {
                     if (!p.temAtendente)
                     {
-                        Atendente a = new Atendente();
-
+                        GameObject o = new GameObject("atendente " + i.ToString());
+                        Atendente a = o.AddComponent<Atendente>();
+                        a._myName = i.ToString();
+                        a._totalTimeToChange = tempoTroca;
                         p.setAtendente(a);
+
+                        Controller.Instance._totalAtendentes.Add(a);
                         break;
                     }
                 }

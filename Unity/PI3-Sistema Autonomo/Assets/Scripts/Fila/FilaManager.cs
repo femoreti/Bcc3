@@ -39,7 +39,7 @@ public class Fila : MonoBehaviour
     public List<User> _userInside;
     public GameObject _parent;
     public int _totalTimeUserInside;
-    public int _totalUsers;
+    public int _totalUsersMedia;
 
     /// <summary>
     /// Inicia uma fila
@@ -55,7 +55,7 @@ public class Fila : MonoBehaviour
         _userInside = new List<User>();
         _parent = lineObj;
         _totalTimeUserInside = 0; //tempo total que os usuarios gastaram na fila
-        _totalUsers = 0; //total que passou na fila
+        _totalUsersMedia = 0; //total que passou na fila
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ public class FilaManager : MonoBehaviour
         string str = string.Empty;
         foreach(Fila f in _filas)
         {
-            str += "\nFila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers);
+            str += "\nFila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsersMedia);
             //Debug.Log("Fila " + f._myType.ToString() + ": " + ((float)f._totalTimeUserInside / (float)f._totalUsers));
         }
 
