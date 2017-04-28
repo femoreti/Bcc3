@@ -24,5 +24,25 @@ public class Atendente : MonoBehaviour
         }
     }
 
+    public void CheckTroca() {
+        Posto postoFuturo = null;
+        
+        if (_postoAtual.atendentes.Count > 1) {
+            var tempoFila = 0;
+            foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
+                if (item._minhaFila._totalUsers * item.turnos > tempoFila) {
+                    tempoFila = item._minhaFila._totalUsers * item.turnos;
+                    postoFuturo = item;
+                }
 
+                // Pensar na condicao de troca
+                this._postoFuturo = postoFuturo;
+                Troca();
+            }
+        }
+    }
+
+    public void Troca() {
+        this._postoAtual = this._postoFuturo;
+    }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class GerenciadorPosto : MonoBehaviour {
     private int qtdAtendentes = 0;
+    public int tempoTroca = 0;
     private float postoWidth = 0;
     private string relPostos;
     private string relAtendentes;
@@ -92,7 +93,7 @@ public class GerenciadorPosto : MonoBehaviour {
             }
             else if(temp[0] == "TROCA")
             {
-                //Se troca for 0 marcar para q nao possa realizar transições
+                tempoTroca = Convert.ToInt16(temp[1]);
             }
             else
             {

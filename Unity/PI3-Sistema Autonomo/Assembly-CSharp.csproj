@@ -48,10 +48,13 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Controller.cs" />
      <Compile Include="Assets\Scripts\Fila\FilaManager.cs" />
+     <Compile Include="Assets\Scripts\FileReader\Atendente.cs" />
      <Compile Include="Assets\Scripts\FileReader\GerenciadorPosto.cs" />
      <Compile Include="Assets\Scripts\FileReader\Posto.cs" />
+     <Compile Include="Assets\Scripts\UIController.cs" />
      <Compile Include="Assets\Scripts\User\User.cs" />
      <Compile Include="Assets\Scripts\User\UserCreator.cs" />
+     <Compile Include="Assets\Scripts\Util\NightTween.cs" />
      <None Include="Assets\StreamingAssets\Fila.txt" />
      <None Include="Assets\StreamingAssets\Setup.txt" />
  <Reference Include="UnityEngine.Analytics">

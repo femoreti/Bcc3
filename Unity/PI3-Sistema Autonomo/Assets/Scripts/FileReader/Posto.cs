@@ -10,7 +10,7 @@ public class Posto: MonoBehaviour {
     public char letra;
     public int turnos;
     public bool temAtendente;
-
+    public List<Atendente> atendentes;
     private User _userSendoAtendido;
     private int _atendimentoRestante;
     public FilaType _myType;
@@ -49,8 +49,6 @@ public class Posto: MonoBehaviour {
                 _userSendoAtendido.transform.parent = this.transform;
                 Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 5f, this.transform.position.y, this.transform.position.z);
 
-
-
                 if (_userSendoAtendido.transform.localPosition.x > 0)
                 {
                     NightTween.Create(_userSendoAtendido.gameObject, (1f / Controller.Instance._gameSpeed) / 2f, new NightTweenParams()
@@ -72,6 +70,6 @@ public class Posto: MonoBehaviour {
     {
         GetComponent<Image>().enabled = true;
         temAtendente = true;
-        //_meuAtendente = a;
+        atendentes.Add(a);
     }
 }
