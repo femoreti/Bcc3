@@ -26,7 +26,7 @@ public class Atendente : MonoBehaviour
             //Cheguei caralho, me coloca pra trabalhar no meu posto
             _postoFuturo.setAtendente(this);
 
-            Debug.Log("Cheguei caralho, " + _myName + " posto " + _postoAtual._myType);
+            //Debug.Log("Cheguei caralho, " + _myName + " posto " + _postoAtual._myType);
             _isChanging = false;
         }
     }
@@ -47,24 +47,24 @@ public class Atendente : MonoBehaviour
                 continue;
             
             // Conta total de atendentes nos postos de mesma letra que o item
-            int countAtendentes = 0;
-            foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
-                if (item.letra == posto.letra) {
-                    if (item.temAtendente)
-                        countAtendentes++;
-                }
-            }
+            //int countAtendentes = 0;
+            //foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
+            //    if (item.letra == posto.letra) {
+            //        if (item.temAtendente)
+            //            countAtendentes++;
+            //    }
+            //}
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
-            float b = 0;
-            if (countAtendentes == 1)
-            {
-                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
-            }
-            else
-            {
-                b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*0.5f);
-            }
+            float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca);
+            //if (countAtendentes == 1)
+            //{
+            //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
+            //}
+            //else
+            //{
+            //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*0.5f);
+            //}
 
             if (a > b) //Verifica o posto atual
             {
@@ -87,13 +87,21 @@ public class Atendente : MonoBehaviour
         }
     }
 
+    public GameObject tween;
     public void Troca()
     {
         Debug.Log("atendente troca " + _myName + " posto " + _postoAtual._myType + " -> " + _postoFuturo._myType);
         this._postoAtual.leaveAtendente();
+
+        RectTransform a = GetComponent<RectTransform>();
+        transform.position = new Vector3(transform.position.x - a.sizeDelta.x, transform.position.y, 0);
         this._postoAtual = null;
 
         this._postoFuturo._atendenteVindo = this;
+
+        tween = NightTween.Create(gameObject, (_totalTimeToChange - 1) * Controller.Instance._gameSpeed, new NightTweenParams()
+            .Property(NTPropType.transformPosition, new Vector3(transform.position.x, this._postoFuturo.transform.position.y, 0))
+            );
         //this._postoAtual = this._postoFuturo;
 
         SetArrivalTurn();

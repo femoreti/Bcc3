@@ -23,7 +23,6 @@ public class Posto: MonoBehaviour {
 
     void Start()
     {
-        transform.FindChild("Text").GetComponent<Text>().text = gameObject.name;
         //_minhaFila = Controller.Instance._filaManager.AchaFila(_myType);
     }
 
@@ -85,14 +84,19 @@ public class Posto: MonoBehaviour {
     /// <param name="a"></param>
     public void setAtendente(Atendente a)
     {
-        GetComponent<Image>().enabled = true;
+        //GetComponent<Image>().enabled = true;
         //GetComponent<Image>().color = Color.yellow;
         temAtendente = true;
+
+        if (a.tween)
+            Destroy(a.tween);
+
+        a.transform.position = transform.FindChild("ref").position;
         atendente = a;
         a._postoAtual = this;
         _atendenteVindo = null;
 
-        Debug.Log("posto: " + _myType + " recebeu atendente " + a._myName);
+        //Debug.Log("posto: " + _myType + " recebeu atendente " + a._myName);
     }
 
     /// <summary>
@@ -102,7 +106,7 @@ public class Posto: MonoBehaviour {
     {
         temAtendente = false;
         atendente = null;
-        GetComponent<Image>().enabled = false;
+        //GetComponent<Image>().enabled = false;
         //GetComponent<Image>().color = Color.red;
     }
 }

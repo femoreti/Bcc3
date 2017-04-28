@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GerenciadorPosto : MonoBehaviour {
     private int qtdAtendentes = 0;
     public int tempoTroca = 0;
-    private float postoWidth = 0;
+    //private float postoWidth = 0;
     private string relPostos;
     private string relAtendentes;
     private List<string> tempoPostos = new List<string>();
@@ -16,8 +16,8 @@ public class GerenciadorPosto : MonoBehaviour {
 
     //public Text nomePostoTxt;
     //public Canvas canvas;
-    public GameObject postoPrefab;
-    public GameObject containerPostos; //temporario ateh proxima versao
+    public GameObject postoPrefab, atendentePrefab;
+    public GameObject containerPostos, containerAtendentes; //temporario ateh proxima versao
     public List<Posto> postos;
     public List<Text> postosNomes;
 
@@ -28,7 +28,7 @@ public class GerenciadorPosto : MonoBehaviour {
         //postoWidth = postoPrefab.transform.localScale.x;
         ReadTextFile();
         InstanciaPostos();
-        PopulaObjetoPosto();
+        //PopulaObjetoPosto();
     }
 
     // Update is called once per frame
@@ -110,7 +110,7 @@ public class GerenciadorPosto : MonoBehaviour {
         tempoPostos.Remove("");
     }
 
-    private void PopulaObjetoPosto()
+    public void PopulaObjetoPosto()
     {
         int totalDeFilasParaCriar = 0;
         // Adcionamos os turnos ao objeto posto
@@ -130,6 +130,7 @@ public class GerenciadorPosto : MonoBehaviour {
                         lastKnowLetter = letra;
                         totalDeFilasParaCriar++;
                     }
+                    posto.transform.FindChild("Text").GetComponent<Text>().text = letra;
                     posto.name = letra;
 
                     posto._myType = (FilaType)Enum.Parse(typeof(FilaType), letra.ToString());
@@ -148,8 +149,15 @@ public class GerenciadorPosto : MonoBehaviour {
                 {
                     if (!p.temAtendente)
                     {
-                        GameObject o = new GameObject("atendente " + i.ToString());
-                        Atendente a = o.AddComponent<Atendente>();
+                        GameObject o = Instantiate(atendentePrefab);
+                        o.name = "Atendente " + i;
+                        o.transform.SetParent(containerAtendentes.transform);
+                        o.transform.localScale = Vector3.one;
+
+                        RectTransform postoSize = p.GetComponent<RectTransform>();
+                        o.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.y, postoSize.sizeDelta.y);
+
+                        Atendente a = o.GetComponent<Atendente>();
                         a._myName = i.ToString();
                         a._totalTimeToChange = tempoTroca;
                         p.setAtendente(a);

@@ -53,6 +53,8 @@ public class Controller : MonoBehaviour
         onReset();
 
         _gerenciadorDePosto.Init();
+        yield return new WaitForEndOfFrame();
+        _gerenciadorDePosto.PopulaObjetoPosto();
         _postos = _gerenciadorDePosto.postos;
 
         yield return new WaitForEndOfFrame();
