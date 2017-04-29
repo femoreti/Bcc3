@@ -47,24 +47,24 @@ public class Atendente : MonoBehaviour
                 continue;
             
             // Conta total de atendentes nos postos de mesma letra que o item
-            //int countAtendentes = 0;
-            //foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
+            // int countAtendentes = 0;
+            // foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
             //    if (item.letra == posto.letra) {
             //        if (item.temAtendente)
             //            countAtendentes++;
             //    }
-            //}
+            // }
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
             float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca);
-            //if (countAtendentes == 1)
-            //{
+            // if (countAtendentes == 1)
+            // {
             //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
-            //}
-            //else
-            //{
+            // }
+            // else
+            // {
             //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*0.5f);
-            //}
+            // }
 
             if (a > b) //Verifica o posto atual
             {
