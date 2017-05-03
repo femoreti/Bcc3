@@ -160,6 +160,7 @@ public class GerenciadorPosto : MonoBehaviour {
                         Atendente a = o.GetComponent<Atendente>();
                         a._myName = i.ToString();
                         a._totalTimeToChange = tempoTroca;
+                        a._postoInicial = p;
                         p.setAtendente(a);
 
                         Controller.Instance._totalAtendentes.Add(a);

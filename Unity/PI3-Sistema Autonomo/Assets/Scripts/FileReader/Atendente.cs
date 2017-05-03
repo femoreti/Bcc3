@@ -6,10 +6,27 @@ public class Atendente : MonoBehaviour
 {
     public string _myName;
     public bool _isBusy, _isChanging;
-    public Posto _postoAtual, _postoFuturo;
+    public Posto _postoAtual, _postoFuturo, _postoInicial;
     public int _totalTimeToChange;
 
     private int _arrivalTurn;
+
+    public void OnReset()
+    {
+        if (_postoAtual != _postoInicial)
+        {
+            //this._postoAtual.leaveAtendente();
+            _postoAtual = _postoInicial;
+            transform.position = _postoAtual.transform.FindChild("ref").position;
+        }
+
+        _postoAtual.temAtendente = true;
+        _postoAtual.atendente = this;
+        _isChanging = false;
+        _isBusy = false;
+        this._postoFuturo = null;
+        //Debug.Break();
+    }
 
     private void SetArrivalTurn()
     {
@@ -90,7 +107,7 @@ public class Atendente : MonoBehaviour
     public GameObject tween;
     public void Troca()
     {
-        Debug.Log("atendente troca " + _myName + " posto " + _postoAtual._myType + " -> " + _postoFuturo._myType);
+        //Debug.Log("atendente troca " + _myName + " posto " + _postoAtual._myType + " -> " + _postoFuturo._myType);
         this._postoAtual.leaveAtendente();
 
         RectTransform a = GetComponent<RectTransform>();

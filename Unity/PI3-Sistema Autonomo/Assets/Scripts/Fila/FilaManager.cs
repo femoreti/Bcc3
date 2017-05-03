@@ -159,4 +159,13 @@ public class FilaManager : MonoBehaviour
 
         return str;
     }
+
+    public void onReset()
+    {
+        foreach (Fila f in _filas)
+        {
+            f._totalTimeUserInside = 0;
+            f._totalUsersMedia = 0;
+        }
+    }
 }

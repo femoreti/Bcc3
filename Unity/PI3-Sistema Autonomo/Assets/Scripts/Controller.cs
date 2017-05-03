@@ -195,10 +195,23 @@ public class Controller : MonoBehaviour
 
         _currentWorldTurn = 0;
         _gameSpeed = 1;
-        if(_totalAtendentes == null)
-            _totalAtendentes = new List<Atendente>();
-        _totalAtendentes.Clear();
 
+        foreach (Posto p in _postos)
+        {
+            p.OnReset();
+        }
+        if (_totalAtendentes == null)
+            _totalAtendentes = new List<Atendente>();
+        else if(_totalAtendentes.Count > 0)
+        {
+            foreach (Atendente a in _totalAtendentes)
+            {
+                a.OnReset();
+            }
+        }
+        //_totalAtendentes.Clear();
+
+        _filaManager.onReset();
         if (_totalTimeByType == null)
         {
             _totalTimeByType = new Dictionary<string, int>();

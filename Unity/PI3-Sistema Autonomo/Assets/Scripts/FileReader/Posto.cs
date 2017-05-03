@@ -89,7 +89,10 @@ public class Posto: MonoBehaviour {
         temAtendente = true;
 
         if (a.tween)
+        {
             Destroy(a.tween);
+            a.tween = null;
+        }
 
         a.transform.position = transform.FindChild("ref").position;
         atendente = a;
@@ -108,5 +111,14 @@ public class Posto: MonoBehaviour {
         atendente = null;
         //GetComponent<Image>().enabled = false;
         //GetComponent<Image>().color = Color.red;
+    }
+
+    public void OnReset()
+    {
+        temAtendente = false;
+        atendente = null;
+        _userSendoAtendido = null;
+        _atendimentoRestante = 0;
+        _atendenteVindo = null;
     }
 }
