@@ -61,7 +61,7 @@ public class Posto: MonoBehaviour {
             //chama o proximo da sua fila
             _userSendoAtendido = _minhaFila.RetiraProximo();
             _userSendoAtendido.transform.parent = this.transform;
-            Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 5f, this.transform.position.y, this.transform.position.z);
+            Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 10f, this.transform.position.y, this.transform.position.z);
 
             if (_userSendoAtendido.transform.localPosition.x > 0) //Coloca em frente o posto
             {

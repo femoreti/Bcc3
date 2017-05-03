@@ -150,7 +150,7 @@ public class Controller : MonoBehaviour
             
             str += _filaManager.TempoMedioPorFila();
 
-            str += "\n\nUser com maior tempo no sistema: " + userHighestTime.userStats.name + "\n";
+            str += "\n\nUser com maior tempo no sistema: " + userHighestTime.userStats.name + " - tempo: "+ userHighestTime.totalTimeInSistem + "s\n";
             //Debug.Log("User com maior tempo no sistema: " + userHighestTime.userStats.name);
 
             foreach(KeyValuePair<string, int> d in _totalTimeByType)
