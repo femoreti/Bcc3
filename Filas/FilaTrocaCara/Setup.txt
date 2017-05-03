@@ -1,0 +1,10 @@
+7
+RP:AABBCCDDEEEFF
+RA:AABCDEF
+TROCA:8
+A2:Triagem
+B2:Formulários
+C3:Fotografia
+D5:Impressão Digital
+E5:Retirada
+F3:Saida
