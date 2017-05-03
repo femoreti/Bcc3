@@ -58,10 +58,10 @@ public class UIController : MonoBehaviour
         _imagePlay.enabled = !_imagePlay.enabled;
         _imagePause.enabled = !_imagePause.enabled;
 
-        if (!_gamePause)
+        /*if (!_gamePause)
         {
             //Pausa o programa
-
+            
             if (c.gameRoutine != null)
                 c.StopCoroutine(c.gameRoutine);
         }
@@ -69,8 +69,11 @@ public class UIController : MonoBehaviour
         {
             //UnPause
             c.gameRoutine = c.StartCoroutine(c.GameTime());
-        }
+        }*/
+
         _gamePause = !_gamePause;
+
+        c._gamePause = _gamePause;
     }
 
     public void onClickSpeed(int speed)

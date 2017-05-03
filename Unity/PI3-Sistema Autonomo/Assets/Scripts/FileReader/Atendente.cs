@@ -116,7 +116,7 @@ public class Atendente : MonoBehaviour
 
         this._postoFuturo._atendenteVindo = this;
 
-        tween = NightTween.Create(gameObject, (_totalTimeToChange - 1) * Controller.Instance._gameSpeed, new NightTweenParams()
+        tween = NightTween.Create(gameObject, (_totalTimeToChange - 1) / Controller.Instance._gameSpeed, new NightTweenParams()
             .Property(NTPropType.transformPosition, new Vector3(transform.position.x, this._postoFuturo.transform.position.y, 0))
             );
         //this._postoAtual = this._postoFuturo;

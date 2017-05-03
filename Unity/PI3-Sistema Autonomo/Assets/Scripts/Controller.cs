@@ -41,13 +41,34 @@ public class Controller : MonoBehaviour
     public List<Atendente> _totalAtendentes;
     public float multiplicadorDoTempoDeTroca = 2f;
 
+    //GameTime
+    public bool _gamePause, _gameStarted;
+    private float _secDrop = 1;
+
 	// Use this for initialization
 	void Awake () {
         instance = this;
 	}
 
-	// Update is called once per frame
-	IEnumerator Start () {
+    private void Update()
+    {
+        if (!_gameStarted || _gamePause)
+            return;
+
+        _secDrop -= Time.deltaTime * _gameSpeed;
+
+        if(_secDrop <= 0)
+        {
+            _secDrop = 1;
+
+            //NovoTurno
+            OnAddTurn();
+            _contadorTurnos.text = "Turnos: " + _currentWorldTurn.ToString();
+        }
+    }
+
+    // Update is called once per frame
+    IEnumerator Start () {
         _contadorTurnos = GameObject.Find("Turno").GetComponent<Text>();
 
         onReset();
@@ -66,7 +87,8 @@ public class Controller : MonoBehaviour
     public void onClickStart()
     {
         tempUserList = UserCreator.Instance._userLine;
-        gameRoutine = StartCoroutine(GameTime());
+        //gameRoutine = StartCoroutine(GameTime());
+        _gameStarted = true;
     }
 
     public IEnumerator GameTime()
@@ -141,7 +163,8 @@ public class Controller : MonoBehaviour
 
             UIController.Instance.onShowEndScreen(str);
 
-            StopCoroutine(gameRoutine);
+            _gameStarted = false;
+            //StopCoroutine(gameRoutine);
         }
     }
 
@@ -195,6 +218,7 @@ public class Controller : MonoBehaviour
 
         _currentWorldTurn = 0;
         _gameSpeed = 1;
+        _secDrop = 1;
 
         foreach (Posto p in _postos)
         {
