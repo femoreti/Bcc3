@@ -57,6 +57,12 @@ public class User : MonoBehaviour
             if (f._userInside != null)
             {
                 f._userInside.Add(this); //Se insere na fila
+                f.GetComponent<Text>().text = f._userInside.Count.ToString();
+                if (f._userInside.Count > 12)
+                    f.GetComponent<Text>().enabled = true;
+                else
+                    f.GetComponent<Text>().enabled = false;
+
                 _currentFila = f._userInside;
                 lineArrivalTurn = Controller.Instance._currentWorldTurn;
                 

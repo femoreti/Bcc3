@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum FilaType
 {
@@ -66,6 +67,12 @@ public class Fila : MonoBehaviour
     {
         User _proximo = _userInside[0];
         _proximo.RemoveDaFila();
+        this.GetComponent<Text>().text = this._userInside.Count.ToString();
+        if (this._userInside.Count > 12)
+            this.GetComponent<Text>().enabled = true;
+        else
+            this.GetComponent<Text>().enabled = false;
+
         return _proximo;
     }
 }
