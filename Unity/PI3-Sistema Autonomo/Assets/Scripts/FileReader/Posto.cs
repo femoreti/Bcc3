@@ -16,6 +16,8 @@ public class Posto: MonoBehaviour {
     public FilaType _myType;
     public Fila _minhaFila;
 
+    private GameObject refUserPos;
+
     void Awake()
     {
         //INSTANCE = this;
@@ -24,6 +26,8 @@ public class Posto: MonoBehaviour {
     void Start()
     {
         //_minhaFila = Controller.Instance._filaManager.AchaFila(_myType);
+
+        refUserPos = transform.Find("ref user").gameObject;
     }
 
     public void PassaTurno()
@@ -61,7 +65,8 @@ public class Posto: MonoBehaviour {
             //chama o proximo da sua fila
             _userSendoAtendido = _minhaFila.RetiraProximo();
             _userSendoAtendido.transform.parent = this.transform;
-            Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 10f, this.transform.position.y, this.transform.position.z);
+            //Vector3 userNewPos = new Vector3(this.transform.position.x + GetComponent<RectTransform>().sizeDelta.x / 2 + 10f, this.transform.position.y, this.transform.position.z);
+            Vector3 userNewPos = refUserPos.transform.position;
 
             if (_userSendoAtendido.transform.localPosition.x > 0) //Coloca em frente o posto
             {
@@ -94,7 +99,8 @@ public class Posto: MonoBehaviour {
             a.tween = null;
         }
 
-        a.transform.position = transform.FindChild("ref").position;
+        a.transform.position = transform.Find("ref at").position;
+        a.transform.eulerAngles = new Vector3(0, 0, 180);
         atendente = a;
         a._postoAtual = this;
         _atendenteVindo = null;

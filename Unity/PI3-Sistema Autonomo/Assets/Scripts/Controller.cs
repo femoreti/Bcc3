@@ -123,6 +123,8 @@ public class Controller : MonoBehaviour
                 GameObject u = Instantiate(UserCreator.Instance._prefabUser);
                 u.name = ub.name;
                 User comp = u.GetComponent<User>();
+                RectTransform re = u.GetComponent<RectTransform>();
+                re.sizeDelta = new Vector2(UserCreator.Instance.userSize, UserCreator.Instance.userSize);
                 comp.userStats = ub;
 
                 comp.ProximaFila();

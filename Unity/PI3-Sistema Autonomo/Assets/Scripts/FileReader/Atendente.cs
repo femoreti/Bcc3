@@ -17,7 +17,7 @@ public class Atendente : MonoBehaviour
         {
             //this._postoAtual.leaveAtendente();
             _postoAtual = _postoInicial;
-            transform.position = _postoAtual.transform.FindChild("ref").position;
+            transform.position = _postoAtual.transform.Find("ref at").position;
         }
 
         _postoAtual.temAtendente = true;
@@ -111,13 +111,15 @@ public class Atendente : MonoBehaviour
         this._postoAtual.leaveAtendente();
 
         RectTransform a = GetComponent<RectTransform>();
-        transform.position = new Vector3(transform.position.x - a.sizeDelta.x, transform.position.y, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 20f, 0);
         this._postoAtual = null;
 
         this._postoFuturo._atendenteVindo = this;
 
+        a.transform.eulerAngles = new Vector3(0, 0, (this.transform.position.x < this._postoFuturo.transform.position.x) ? 90 : -90);
+
         tween = NightTween.Create(gameObject, (_totalTimeToChange - 1) / Controller.Instance._gameSpeed, new NightTweenParams()
-            .Property(NTPropType.transformPosition, new Vector3(transform.position.x, this._postoFuturo.transform.position.y, 0))
+            .Property(NTPropType.transformPosition, new Vector3(this._postoFuturo.transform.position.x, transform.position.y, 0))
             );
         //this._postoAtual = this._postoFuturo;
 

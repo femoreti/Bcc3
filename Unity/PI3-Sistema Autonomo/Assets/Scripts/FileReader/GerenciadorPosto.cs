@@ -130,7 +130,7 @@ public class GerenciadorPosto : MonoBehaviour {
                         lastKnowLetter = letra;
                         totalDeFilasParaCriar++;
                     }
-                    posto.transform.FindChild("Text").GetComponent<Text>().text = letra;
+                    posto.transform.Find("Text").GetComponent<Text>().text = letra;
                     posto.name = letra;
 
                     posto._myType = (FilaType)Enum.Parse(typeof(FilaType), letra.ToString());
@@ -154,8 +154,10 @@ public class GerenciadorPosto : MonoBehaviour {
                         o.transform.SetParent(containerAtendentes.transform);
                         o.transform.localScale = Vector3.one;
 
-                        RectTransform postoSize = p.GetComponent<RectTransform>();
-                        o.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.y, postoSize.sizeDelta.y);
+                        RectTransform postoSize = p.transform.Find("chair").GetComponent<RectTransform>();
+                        o.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.x + 10, postoSize.sizeDelta.x + 10);
+
+                        UserCreator.Instance.userSize = postoSize.sizeDelta.x + 10;
 
                         Atendente a = o.GetComponent<Atendente>();
                         a._myName = i.ToString();

@@ -1,11 +1,10 @@
-8
-RP:AABCCDDEEEFFGG
-RA:AABCDDEF
-TROCA:4
-A2:Triagem
-B2:Formulários
-C3:Fotografia
-D5:Banco (Pagto)
-E5:Conferencia
-F3:Retirada
-G4:Saida
+7
+RP:AABCCCDDEEFF
+RA:ABCDEFF
+TROCA:3
+A1:Triagem
+B4:Formulários
+C5:Fotografia
+D3:Impressão Digital
+E3:Retirada
+F3:Saida

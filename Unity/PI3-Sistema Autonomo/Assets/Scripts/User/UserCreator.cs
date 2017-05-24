@@ -8,6 +8,7 @@ public class UserCreator : MonoBehaviour
     public static UserCreator Instance;
     public GameObject _prefabUser;
     public List<UserBasics> _userLine = new List<UserBasics>();
+    public float userSize;
 
 	// Use this for initialization
 	void Awake ()

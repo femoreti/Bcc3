@@ -100,6 +100,7 @@ public class FilaManager : MonoBehaviour
 
             Vector3 posPosto = Vector3.zero;
             Vector2 delta = Vector2.zero;
+            float setY = 0;
             int totalPostos = 0;
             for (int j = 0; j < tempPosto.Count; j++)
             {
@@ -109,8 +110,8 @@ public class FilaManager : MonoBehaviour
                     posPosto += tempPosto[j].transform.position;
                     totalPostos++;
                     RectTransform postoSize = tempPosto[j].GetComponent<RectTransform>();
-                    go.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.y, postoSize.sizeDelta.y);
-
+                    go.GetComponent<RectTransform>().sizeDelta = new Vector2(postoSize.sizeDelta.x, postoSize.sizeDelta.x);
+                    setY = tempPosto[j].transform.Find("ref fila").transform.position.y;
                     delta = postoSize.sizeDelta;
 
                     tempPosto[j]._minhaFila = f;
@@ -121,7 +122,8 @@ public class FilaManager : MonoBehaviour
                     continue;
             }
 
-            go.transform.position = new Vector3(posPosto.x/totalPostos + delta.x + 20f, posPosto.y/totalPostos, 0);
+            //go.transform.position = new Vector3(posPosto.x/totalPostos + delta.x + 20f, posPosto.y/totalPostos, 0);
+            go.transform.position = new Vector3(posPosto.x / totalPostos, setY, 0);
             go.transform.localScale = Vector3.one;
             //Debug.Log("fila " + i + " pos " + posPosto);
         }
