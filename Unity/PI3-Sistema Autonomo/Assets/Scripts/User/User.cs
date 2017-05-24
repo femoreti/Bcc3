@@ -27,6 +27,7 @@ public class User : MonoBehaviour
 	void Start ()
     {
         transform.GetChild(0).GetComponent<Text>().text = userStats.name;
+        GetComponent<Image>().sprite = Controller.Instance._sptUsers[UnityEngine.Random.Range(0, Controller.Instance._sptUsers.Count)];
         Controller.Instance.totalUsers++;
         Controller.Instance.userInSistem++;
     }

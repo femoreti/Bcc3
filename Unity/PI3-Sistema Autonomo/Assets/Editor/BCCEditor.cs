@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public class BCCEditor : MonoBehaviour {
 
-    [MenuItem("BCC/read Setup txt file")]
+    //[MenuItem("BCC/read Setup txt file")]
     public static void ReadSetupFile()
     {
         string myTxt = File.ReadAllText(Application.streamingAssetsPath + "/Setup.txt");
@@ -22,7 +24,7 @@ public class BCCEditor : MonoBehaviour {
         }
     }
 
-    [MenuItem("BCC/read Fila txt file")]
+    //[MenuItem("BCC/read Fila txt file")]
     public static void ReadFilaFile()
     {
         string myTxt = File.ReadAllText(Application.streamingAssetsPath + "/Fila.txt");
@@ -62,5 +64,50 @@ public class BCCEditor : MonoBehaviour {
         }
     }
 
+    [MenuItem("BCC/SetSprites")]
+    public static void SetSprites()
+    {
+        Sprite[] atendentesSpt = FindSprites("Assets/Images/atendentes");
+        GerenciadorPosto gp = GameObject.Find("Controller").GetComponent<GerenciadorPosto>();
+        gp._sptAtendentes.Clear();
+        foreach (Sprite spt in atendentesSpt)
+        {
+            if(spt.name[spt.name.Length-1] == 'd')
+            {
+                gp._sptAtendentes.Add(spt);
+            }
+        }
 
+        Sprite[] usersSpt = FindSprites("Assets/Images/usuarios");
+        Controller gc = GameObject.Find("Controller").GetComponent<Controller>();
+        gc._sptUsers.Clear();
+        foreach (Sprite spt in usersSpt)
+        {
+            if (spt.name[spt.name.Length - 1] == 'd')
+            {
+                gc._sptUsers.Add(spt);
+            }
+        }
+
+        EditorUtility.SetDirty(gp);
+        EditorUtility.SetDirty(gc);
+
+        AssetDatabase.SaveAssets();
+    }
+
+    private static Sprite[] FindSprites(string textPath)
+    {
+        List<Sprite> sprites = new List<Sprite>();
+        string[] container = AssetDatabase.FindAssets("t:texture", new string[] { textPath });
+        if (container != null)
+        {
+            for (int x = 0; x < container.Length; x++)
+            {
+                string tPath = AssetDatabase.GUIDToAssetPath(container[x]);
+                sprites.AddRange(AssetDatabase.LoadAllAssetsAtPath(tPath).OfType<Sprite>().ToArray());
+            }
+        }
+
+        return sprites.ToArray();
+    }
 }

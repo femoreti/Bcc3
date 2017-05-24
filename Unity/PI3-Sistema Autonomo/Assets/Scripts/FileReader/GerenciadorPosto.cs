@@ -5,7 +5,8 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GerenciadorPosto : MonoBehaviour {
+public class GerenciadorPosto : MonoBehaviour
+{
     private int qtdAtendentes = 0;
     public int tempoTroca = 0;
     //private float postoWidth = 0;
@@ -20,6 +21,8 @@ public class GerenciadorPosto : MonoBehaviour {
     public GameObject containerPostos, containerAtendentes; //temporario ateh proxima versao
     public List<Posto> postos;
     public List<Text> postosNomes;
+
+    public List<Sprite> _sptAtendentes;
 
     public int totalPostosDistindos { get; set; }
 
@@ -161,6 +164,7 @@ public class GerenciadorPosto : MonoBehaviour {
 
                         Atendente a = o.GetComponent<Atendente>();
                         a._myName = i.ToString();
+                        a.GetComponent<Image>().sprite = _sptAtendentes[UnityEngine.Random.Range(0, _sptAtendentes.Count)];
                         a._totalTimeToChange = tempoTroca;
                         a._postoInicial = p;
                         p.setAtendente(a);

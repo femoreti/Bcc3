@@ -45,8 +45,11 @@ public class Controller : MonoBehaviour
     public bool _gamePause, _gameStarted;
     private float _secDrop = 1;
 
-	// Use this for initialization
-	void Awake () {
+    //Imagem dos users
+    public List<Sprite> _sptUsers;
+
+    // Use this for initialization
+    void Awake () {
         instance = this;
 	}
 
