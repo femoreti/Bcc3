@@ -41,6 +41,7 @@ public class Fila : MonoBehaviour
     public GameObject _parent;
     public int _totalTimeUserInside;
     public int _totalUsersMedia;
+    public Text _myTextCount;
 
     /// <summary>
     /// Inicia uma fila
@@ -67,11 +68,11 @@ public class Fila : MonoBehaviour
     {
         User _proximo = _userInside[0];
         _proximo.RemoveDaFila();
-        this.GetComponent<Text>().text = this._userInside.Count.ToString();
-        if (this._userInside.Count > 12)
-            this.GetComponent<Text>().enabled = true;
+        _myTextCount.text = this._userInside.Count.ToString();
+        if (this._userInside.Count > 8)
+            _myTextCount.enabled = true;
         else
-            this.GetComponent<Text>().enabled = false;
+            _myTextCount.enabled = false;
 
         return _proximo;
     }
@@ -79,7 +80,7 @@ public class Fila : MonoBehaviour
 
 public class FilaManager : MonoBehaviour
 {
-    public GameObject prefabFila, filaContainer;
+    public GameObject prefabFila, filaContainer, prefabText;
     public List<Fila> _filas;
 
 	// Use this for initialization
@@ -129,9 +130,20 @@ public class FilaManager : MonoBehaviour
                     continue;
             }
 
-            //go.transform.position = new Vector3(posPosto.x/totalPostos + delta.x + 20f, posPosto.y/totalPostos, 0);
             go.transform.position = new Vector3(posPosto.x / totalPostos, setY, 0);
             go.transform.localScale = Vector3.one;
+
+            GameObject tempText = Instantiate(prefabText);
+            tempText.name = f.name + "_Text";
+            tempText.transform.position = go.transform.position;
+
+            tempText.transform.SetParent(filaContainer.transform);
+            tempText.transform.localScale = Vector3.one;
+            f._myTextCount = tempText.GetComponent<Text>();
+            f._myTextCount.enabled = false;
+
+            //f._myTextCount = Gam
+
             //Debug.Log("fila " + i + " pos " + posPosto);
         }
     }
