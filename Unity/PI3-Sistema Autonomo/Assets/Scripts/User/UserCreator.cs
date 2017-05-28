@@ -40,6 +40,11 @@ public class UserCreator : MonoBehaviour
             UserBasics ub = new UserBasics();
 
             string line = lineSplitEnters[i];
+            if(string.IsNullOrEmpty(line))
+            {
+                //Debug.Log("null line");
+                break;
+            }
             //Debug.Log("################## - " + line);
             string userName = lineSplitEnters[i].Split('C')[0];
             string turnoChegada = "C" + lineSplitEnters[i].Split('C')[1].Split('A')[0];

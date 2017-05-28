@@ -61,15 +61,17 @@ public class Atendente : MonoBehaviour
         {
             if (posto.temAtendente || posto._atendenteVindo != null || posto == _postoAtual || posto._minhaFila._userInside.Count == 0)
                 continue;
-            
+
             // Conta total de atendentes nos postos de mesma letra que o item
-            // int countAtendentes = 0;
-            // foreach (var item in Controller.Instance._gerenciadorDePosto.postos) {
-            //    if (item.letra == posto.letra) {
-            //        if (item.temAtendente)
-            //            countAtendentes++;
-            //    }
-            // }
+            int countAtendentes = 0;
+            foreach (var item in Controller.Instance._gerenciadorDePosto.postos)
+            {
+                if (item.letra == posto.letra)
+                {
+                    if (item.temAtendente)
+                        countAtendentes++;
+                }
+            }
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
             float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + 
@@ -96,6 +98,9 @@ public class Atendente : MonoBehaviour
 
         if(postoFuturo != null)
         {
+            Debug.Log(gameObject.name + " decidiu trocar para " + postoFuturo.name);
+            Debug.Break();
+
             // Pensar na condicao de troca
             this._postoFuturo = postoFuturo;
 
