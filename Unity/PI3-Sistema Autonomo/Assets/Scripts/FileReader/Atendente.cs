@@ -73,6 +73,15 @@ public class Atendente : MonoBehaviour
                 }
             }
 
+            //Debug.Log(posto.name + " tem fila com " + posto._minhaFila._userInside.Count);
+            //Debug.Log(posto.name + " tem " + countAtendentes);
+
+            if (posto._minhaFila._userInside.Count <= countAtendentes)
+            {
+                //Debug.Log("fila menor q atendentes");
+                continue;
+            }
+
             float a = posto._minhaFila._userInside.Count * posto.turnos;
             float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + 
                 (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca * ((_postoAtual._minhaFila._userInside.Count != 0) ? 1 : 0));
@@ -98,8 +107,8 @@ public class Atendente : MonoBehaviour
 
         if(postoFuturo != null)
         {
-            Debug.Log(gameObject.name + " decidiu trocar para " + postoFuturo.name);
-            Debug.Break();
+            //Debug.Log(gameObject.name + " decidiu trocar para " + postoFuturo.name);
+            //Debug.Break();
 
             // Pensar na condicao de troca
             this._postoFuturo = postoFuturo;
