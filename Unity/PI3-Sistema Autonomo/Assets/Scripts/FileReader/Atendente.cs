@@ -70,6 +70,10 @@ public class Atendente : MonoBehaviour
                 {
                     if (item.temAtendente)
                         countAtendentes++;
+                    //if (item.temAtendente || item._atendenteVindo != null)
+                    //    countAtendentes++;
+
+                    //Debug.Log(item.name + " = " + countAtendentes);
                 }
             }
 
@@ -82,17 +86,9 @@ public class Atendente : MonoBehaviour
                 continue;
             }
 
-            float a = posto._minhaFila._userInside.Count * posto.turnos;
+            float a = posto._minhaFila._userInside.Count * posto.turnos; //posto que talvez precise de atendente
             float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + 
                 (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca * ((_postoAtual._minhaFila._userInside.Count != 0) ? 1 : 0));
-            // if (countAtendentes == 1)
-            // {
-            //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
-            // }
-            // else
-            // {
-            //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*0.5f);
-            // }
 
             if (a >= b) //Verifica o posto atual
             {
@@ -105,15 +101,10 @@ public class Atendente : MonoBehaviour
             }
         }
 
+        //realiza troca
         if(postoFuturo != null)
         {
-            //Debug.Log(gameObject.name + " decidiu trocar para " + postoFuturo.name);
-            //Debug.Break();
-
-            // Pensar na condicao de troca
             this._postoFuturo = postoFuturo;
-
-            // tempoFilaFutura / 2 + tempoTroca < tempoFilaFutura
             Troca();
         }
     }
