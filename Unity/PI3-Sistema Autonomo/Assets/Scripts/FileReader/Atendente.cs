@@ -38,12 +38,11 @@ public class Atendente : MonoBehaviour
         if (!_isChanging)
             return;
 
-        if(_arrivalTurn >= Controller.Instance._currentWorldTurn)
+        //if (_arrivalTurn >= Controller.Instance._currentWorldTurn)
+        if (Controller.Instance._currentWorldTurn >= _arrivalTurn)
         {
-            //Cheguei caralho, me coloca pra trabalhar no meu posto
             _postoFuturo.setAtendente(this);
 
-            //Debug.Log("Cheguei caralho, " + _myName + " posto " + _postoAtual._myType);
             _isChanging = false;
         }
     }
@@ -73,7 +72,8 @@ public class Atendente : MonoBehaviour
             // }
 
             float a = posto._minhaFila._userInside.Count * posto.turnos;
-            float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca * ((_postoAtual._minhaFila._userInside.Count != 0) ? 1 : 0));
+            float b = (_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + 
+                (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca * ((_postoAtual._minhaFila._userInside.Count != 0) ? 1 : 0));
             // if (countAtendentes == 1)
             // {
             //    b = ((_postoAtual._minhaFila._userInside.Count * _postoAtual.turnos) + (_totalTimeToChange * Controller.Instance.multiplicadorDoTempoDeTroca)*1.75f);
@@ -111,14 +111,16 @@ public class Atendente : MonoBehaviour
         this._postoAtual.leaveAtendente();
 
         RectTransform a = GetComponent<RectTransform>();
-        transform.position = new Vector3(transform.position.x, transform.position.y - 20f, 0);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 40f, 0);
         this._postoAtual = null;
 
         this._postoFuturo._atendenteVindo = this;
 
         a.transform.eulerAngles = new Vector3(0, 0, (this.transform.position.x < this._postoFuturo.transform.position.x) ? 90 : -90);
 
-        tween = NightTween.Create(gameObject, (_totalTimeToChange - 1) / Controller.Instance._gameSpeed, new NightTweenParams()
+        //Debug.Log("time to change " + (_totalTimeToChange - 1));
+        //Debug.Break();
+        tween = NightTween.Create(gameObject, (_totalTimeToChange) / Controller.Instance._gameSpeed, new NightTweenParams()
             .Property(NTPropType.transformPosition, new Vector3(this._postoFuturo.transform.position.x, transform.position.y, 0))
             );
         //this._postoAtual = this._postoFuturo;
