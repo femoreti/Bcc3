@@ -15,7 +15,7 @@ public class UIController : MonoBehaviour
     }
 
     public GameObject _containerSpeed, _btnPause, _btnStart, _endScreen;
-    public Image _imagePause, _imagePlay;
+    public Sprite _imagePause, _imagePlay; 
 
     public Text _endScreenStatsText;
 
@@ -38,8 +38,9 @@ public class UIController : MonoBehaviour
         _btnStart.SetActive(true);
         _btnPause.SetActive(false);
         _endScreen.SetActive(false);
-        _imagePlay.enabled = false;
-        _imagePause.enabled = true;
+        _btnPause.GetComponent<Image>().sprite = _imagePause;
+        //_imagePlay.enabled = false;
+        //_imagePause.enabled = true;
     }
 
     public void OnClickStart()
@@ -54,22 +55,8 @@ public class UIController : MonoBehaviour
     public void onClickPause()
     {
         Controller c = Controller.Instance;
-
-        _imagePlay.enabled = !_imagePlay.enabled;
-        _imagePause.enabled = !_imagePause.enabled;
-
-        /*if (!_gamePause)
-        {
-            //Pausa o programa
-            
-            if (c.gameRoutine != null)
-                c.StopCoroutine(c.gameRoutine);
-        }
-        else
-        {
-            //UnPause
-            c.gameRoutine = c.StartCoroutine(c.GameTime());
-        }*/
+        
+        _btnPause.GetComponent<Image>().sprite = (_gamePause) ? _imagePause : _imagePlay;
 
         _gamePause = !_gamePause;
 
