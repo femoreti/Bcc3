@@ -32,6 +32,15 @@ public class UIController : MonoBehaviour
         onReset();
     }
 
+    private void OnGUI()
+    {
+        Event e = Event.current;
+        if (e.type == EventType.KeyDown && e.control && e.alt && e.keyCode == KeyCode.I)
+            Controller.Instance._gameSpeed = 300;
+        else if (e.type == EventType.KeyDown && e.control && e.alt && e.keyCode == KeyCode.D)
+            Controller.Instance._gameSpeed = 1;
+    }
+
     public void onReset()
     {
         _containerSpeed.SetActive(false);

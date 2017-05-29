@@ -86,6 +86,7 @@
     <Compile Include="Assets\Scripts\UIController.cs" />
     <Compile Include="Assets\Scripts\User\User.cs" />
     <Compile Include="Assets\Scripts\User\UserCreator.cs" />
+    <Compile Include="Assets\Scripts\Util\FontEffect.cs" />
     <Compile Include="Assets\Scripts\Util\NightTween.cs" />
   </ItemGroup>
   <ItemGroup>
