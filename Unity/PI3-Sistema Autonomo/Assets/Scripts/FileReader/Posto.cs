@@ -74,7 +74,7 @@ public class Posto: MonoBehaviour {
                     atendente.CheckTroca();
             }
 
-                if (atendente != null)
+            if (atendente != null)
                 ChamaFila();
         }
     }

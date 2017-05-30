@@ -24,7 +24,7 @@ public class User : MonoBehaviour
     private int lineArrivalTurn = 0;
 
 	// Use this for initialization
-	void Start ()
+	public void Init ()
     {
         transform.GetChild(0).GetComponent<Text>().text = userStats.name;
         GetComponent<Image>().sprite = Controller.Instance._sptUsers[UnityEngine.Random.Range(0, Controller.Instance._sptUsers.Count)];
@@ -72,12 +72,12 @@ public class User : MonoBehaviour
                     transform.localScale = Vector3.one;
                 }
             }
-            
+            //Debug.Log(userStats.name + " entoru no posto ");
             gameObject.name = userStats.name + " / " + f._myType.ToString();
         }
         else
         {
-            
+            //Debug.Log(userStats.name + " saiu do sistema " + totalTimeInSistem);
             //Destroy(this.gameObject);
             gameObject.name = userStats.name + " / saiu";
             RemoveDaFila();

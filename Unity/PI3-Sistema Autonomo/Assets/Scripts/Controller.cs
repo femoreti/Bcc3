@@ -129,7 +129,7 @@ public class Controller : MonoBehaviour
                 RectTransform re = u.GetComponent<RectTransform>();
                 re.sizeDelta = new Vector2(UserCreator.Instance.userSize, UserCreator.Instance.userSize);
                 comp.userStats = ub;
-
+                comp.Init();
                 comp.ProximaFila();
 
                 tempUserList.RemoveAt(i);
