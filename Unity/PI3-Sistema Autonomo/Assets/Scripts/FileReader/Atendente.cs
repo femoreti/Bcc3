@@ -68,10 +68,10 @@ public class Atendente : MonoBehaviour
             {
                 if (item.letra == posto.letra)
                 {
-                    if (item.temAtendente)
-                        countAtendentes++;
-                    //if (item.temAtendente || item._atendenteVindo != null)
+                    //if (item.temAtendente)
                     //    countAtendentes++;
+                    if (item.temAtendente || item._atendenteVindo != null)
+                        countAtendentes++;
 
                     //Debug.Log(item.name + " = " + countAtendentes);
                 }

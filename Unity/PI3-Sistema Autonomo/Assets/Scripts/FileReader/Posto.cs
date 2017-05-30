@@ -51,9 +51,30 @@ public class Posto: MonoBehaviour {
                 atendente._isBusy = false;
             }
 
-            atendente.CheckTroca();
+            if (_minhaFila._userInside.Count == 0)
+            {
+                atendente.CheckTroca();
+            }
+            else
+            {
+                int countAtendentes = 0;
+                foreach (var item in Controller.Instance._gerenciadorDePosto.postos)
+                {
+                    if (item.letra == letra)
+                    {
+                        //if (item.temAtendente)
+                        //    countAtendentes++;
+                        if (item.temAtendente || item._atendenteVindo != null)
+                            countAtendentes++;
 
-            if(atendente != null)
+                        //Debug.Log(item.name + " = " + countAtendentes);
+                    }
+                }
+                if (countAtendentes > 1)
+                    atendente.CheckTroca();
+            }
+
+                if (atendente != null)
                 ChamaFila();
         }
     }
