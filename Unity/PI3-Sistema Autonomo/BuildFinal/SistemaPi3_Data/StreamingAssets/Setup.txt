@@ -1,0 +1,6 @@
+1
+RP:AB
+RA:A
+TROCA:3
+A1:Entrada
+B2:Saida
