@@ -55,24 +55,24 @@ public class Posto: MonoBehaviour {
             {
                 atendente.CheckTroca();
             }
-            else
-            {
-                int countAtendentes = 0;
-                foreach (var item in Controller.Instance._gerenciadorDePosto.postos)
-                {
-                    if (item.letra == letra)
-                    {
-                        //if (item.temAtendente)
-                        //    countAtendentes++;
-                        if (item.temAtendente || item._atendenteVindo != null)
-                            countAtendentes++;
+            //else
+            //{
+            //    int countAtendentes = 0;
+            //    foreach (var item in Controller.Instance._gerenciadorDePosto.postos)
+            //    {
+            //        if (item.letra == letra)
+            //        {
+            //            //if (item.temAtendente)
+            //            //    countAtendentes++;
+            //            if (item.temAtendente || item._atendenteVindo != null)
+            //                countAtendentes++;
 
-                        //Debug.Log(item.name + " = " + countAtendentes);
-                    }
-                }
-                if (countAtendentes > 1)
-                    atendente.CheckTroca();
-            }
+            //            //Debug.Log(item.name + " = " + countAtendentes);
+            //        }
+            //    }
+            //    if (countAtendentes > 1)
+            //        atendente.CheckTroca();
+            //}
 
             if (atendente != null)
                 ChamaFila();
